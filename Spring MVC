@@ -1,0 +1,396 @@
+what version of Spring Frame work you are using?
+Spring framework 5.2.11
+
+what are API's deprecated in 5.2.11?
+1. Deprecated AsyncRestTemplate
+
+
+what are features of Spring framework 5.x?
+1. Reactive Programming Support
+ Spring WebFlux: Introduces a reactive web framework alongside the traditional Spring MVC. 
+ It supports reactive programming using Project Reactor, allowing for non-blocking, asynchronous 
+ processing, which is especially useful for handling large numbers of concurrent requests.
+
+2. JDK 8+ Baseline
+3. Kotlin Support
+4. Improved Dependency Injection and Configuration
+5. Revised Web Framework
+6. HTTP/2 Support: Support for HTTP/2, which improves performance, especially for web applications.
+7. Testing Improvements
+8. Improved Testing Annotations: Enhanced testing annotations like @MockBean and @SpyBean for better test configurations.
+9. Integration with Spring Boot 2.x
+
+what are deprecated apis in spiring framwork 5.x?
+
+1. XML-Based Configuration
+ org.springframework.beans.factory.xml.XmlBeanDefinitionReader Methods: 
+ Certain methods in XML configuration classes have been deprecated as Spring encourages the use of Java-based configuration (JavaConfig) or annotation-based configuration.
+2.private AsyncRestTemplate asyncRestTemplate;
+3.RestTemplate Methods
+4.JmsTemplate Methods
+
+handling the exceptions in spring mvc in one controller class
+@ExceptionHandler(value =Exception.class)
+public String handleException(Exception e){
+
+return "exception";
+}
+
+to handle through out the application like there are ten controller class then
+we have declare generic exception handler class
+@ControllerAdvice 
+public class GlobalExceptionHandler{
+
+  @Exceptionhandler(value=NullPointerException.class)
+  public String handlNullPointerException(Exception e){
+  
+   return ""NullPointerException;
+  } 
+}
+@Exceptionhandler(value=IOException.class)
+public String handleIOException(Excepton e){
+
+return "IOException";
+}
+
+@ResponseStatus(value=HttpStatus.internalServiceError)
+
+one more way to handle exception in Spring is we can include in spring-dispatcher-servlet.xml
+use simleMappingExceptionResolver
+
+
+internationalization and localization
+ReloadableResourceBundleMessageSource we need to include spring-dispatcher-servlet.xml
+
+
+interceptors example
+like web site does not work on sunday try on any other day
+handlerinterceptorAdapter class overrides one of the method preHanndle
+
+configure newly created class in spring configuration file
+DayofWeekBasisWebSiteAccess extends handlerInterceptorAdapter class
+<mvc:interceptor>
+<bean  class="DayofWeekBasisWebSiteAccess"/>
+</mvc:interceptor>
+
+form validations in spring mvc
+bindingResult
+size and valid annotation
+third party annotation is jsr303/349 
+size(min=2, max=8 message="Name field length should be between 2 and 8 charactors"
+
+Transaction Manager Configuration
+platform specific Transaction Manager
+DataSourceTransaction Manager -JDBC
+HibernateTransaction Manager-Hibernate
+JpaTransaction Manager- JPA
+JtaTransaction Manager -JTA
+
+Propagation rules in spring transaction
+propagation_mandatory
+propagation_nested
+propagation_never
+propagation_not_supported
+propagation_required
+
+Isolation levels
+Dirty reads:
+Non repeatable reads
+Phantom reads
+
+Isolation attributes 
+Isolation_default
+Isolation_read_Uncommitted
+isolation_read_committed
+isolation_repeatable_read
+
+isolation_serializable:
+
+
+Transaction Ready only
+
+Transaction Time out
+
+
+What are the Types of Autowiring?
+There are 4 types of Autowiring annotation support:
+· byType: This is the default type of autowiring. The Spring Framework will look for 
+a bean with the same type as the dependency.
+
+· byName: The Spring Framework will look for a bean with the same name as the dependency.
+
+· byConstructor: The Spring Framework will look for a constructor that takes a single 
+argument of the type of the dependency.
+
+· byQualifier: The Spring Framework will look for a bean with a qualifier that matches 
+the specified value.
+
+Auto Wire DisAdvantages
+Explicit dependency configuration overrides the auto wiring
+can not resolve the beans if the multiple beans of same type configured
+
+multiple ways to connect DB
+JDBC
+IBATIS
+Hibernate
+JPA
+JCA
+
+Spring Exception are all unchecked exception , no catch Block need
+
+Spring JDBC template pattern
+jdbc template is algoritham 
+
+jdbcTemplate: depend on datasource 
+HibernateTemplate: user orm like hibernate
+NamedParameterJdbcTemplate
+SimplejdbcTemplate
+JpaTemplate
+SqlMapClientTemplate
+JdoTemplate
+CciTemplate
+
+Choose Data Source Type
+DataSources by JDBC API
+DriverManagerDataSource
+SinglConnectionDataSource
+
+Rest AP web services required jars
+
+gs-rest-service-0.1.0.jar
+ org.springframework.web.bind.annotation.RestController;
+ 
+ jaxrs-ri-2.17\jaxrs-ri\api
+\jaxrs-ri-2.17\jaxrs-ri\ext
+\jaxrs-ri-2.17\jaxrs-ri\lib
+
+jersey1.18 jackson-jars1.9.2
+
+
+session management in Spring MVC?
+we have use @sessionAttribute("someekey")
+
+session in security
+We can control exactly when our session gets created and how Spring Security will interact with it:
+
+always � a session will always be created if one doesn�t already exist
+ifRequired � a session will be created only if required (default)
+never � the framework will never create a session itself but it will use one if it already exists
+stateless � no session will be created or used by Spring Security
+<http create-session="ifRequired">...</http>
+
+Concurrent Session Control
+When a user that is already authenticated tries to authenticate again, the application can deal with that event
+ in one of a few ways. It can either invalidate the active session of the user and authenticate the user again with a new session, or allow both sessions to exist concurrently.
+The first step in enabling the concurrent session-control support is to add the following listener 
+in the web.xml
+<listener>
+    <listener-class>
+      org.springframework.security.web.session.HttpSessionEventPublisher
+    </listener-class>
+</listener>
+
+To enable the scenario which allows multiple concurrent sessions for the same user the <session-management> element should be used in the XML configuration:
+
+<http ...>
+    <session-management>
+        <concurrency-control max-sessions="2" />
+    </session-management>
+</http>
+
+Session Timeout
+After the session has timed out, if the user sends a request with an expired session id, they will be redirected to a URL configurable via the namespace:
+<session-management>
+    <concurrency-control expired-url="/sessionExpired.html" ... />
+</session-management>
+
+Prevent using URL Parameters for Session Tracking
+Alternatively, starting with Servlet 3.0, the session tracking mechanism can also be configured in the web.xml:
+
+<session-config>
+     <tracking-mode>COOKIE</tracking-mode>
+</session-config>
+
+WebDataBinder and InitBinder in spring mvc?
+
+if my form have some fields, i dt want map specifice fields then we can do this using
+WebDataBinder and InitBinder
+
+in controller we have to do like below
+
+@InitBinder
+public void initBinder(WebDataBinder binder){
+ binder.setDisallowedFields(new String[]{"studentMobile"});
+
+}
+
+Property Editor
+for example i need date format like yyyy*****MM***dd
+
+binder.registerCustomEditor(Date.class, "studentDOB", new CustomDateEditor(dateFormate,false)
+
+Local Editor, CustomCollectionEditor, StringTrimEditor
+we can customize the Property editor
+
+
+Spring SimpleJdbcTemplate Example?
+Spring 3 JDBC supports the java 5 feature var-args (variable argument) and autoboxing by the help of SimpleJdbcTemplate class.
+
+The DriverManagerDataSource is used to contain the information about the database such as driver class name, connnection URL, username and password.
+
+There are a property named datasource in the SimpleJdbcTemplate class of DriverManagerDataSource type. So, we need to provide the reference of DriverManagerDataSource 
+object in the SimpleJdbcTemplate class for the datasource property.
+
+Spring JdbcTemplate Tutorial
+JdbcTemplate
+NamedParameterJdbcTemplate
+SimpleJdbcTemplate
+SimpleJdbcInsert and SimpleJdbcCall
+
+JdbcTemplate class
+We can perform all the database operations by the help of JdbcTemplate class such as insertion, 
+updation, deletion and retrieval of the data from the database.
+
+to load database.properities
+<context:property-placeholder location="classpath:resources/database.properties">
+
+<tx:annotation-driven transaction-manager="hibernateTransactionManager">
+
+What are the methods of bean life cycle?
+
+SetUp-  called when bean is loaded into container
+Teardown - call when bean is unloaded into container
+
+what is IoC?
+with IoC, you delegate the responsiblity of object creation and dependency management to the Spring Container,instead of creating objects
+explicitly, you define their dependencies through configuration files or annotations.
+IOC containers also support lazy loading and eager installation of services.
+
+
+what are applicationContext implementations in spring framework?
+ClassPathXmlApplicationContext
+FileSystemXmlApplicationContext
+XmlWebApplicationContext
+
+Name the Exception class which is connected to the exceptions thrown by the applications?
+It is the DataAccessException given by org.springframework.dao.DataAccessException
+DataAccessException is a RuntimeException. It is an Unchecked Exception. 
+The user cannot be forced to handle these kinds of exceptions.
+
+what are features of Spring boot 3 n Spring FrameWork 6?
+
+Java 17+ baseline
+Faster Application Starts App
+More Secure Apps
+Infrastruture Utilization
+Reactive Programming Support: SpringWebFlux n Project Reactor
+Developer can easily build highly scalable applications using non-blocking i/o n reactive data streaming
+Functional Bean Registration
+improved APIS for testing like test slicing
+StreamLined Dependency Managment
+Spring 6 is runtime compatible with Jakarta EE 9 as well as Jakarta EE 10 APIs.
+Spring 6 is compatible with the latest web servers, such as Tomcat 10.1, Jetty 11, and Undertow 2.3
+Spring 6 introduces support for Ahead-Of-Time (AOT) compilation
+Spring 6 provides JPA support for Hibernate ORM 6.1
+Spring MVC 6.0 now has built-in method validation support for controller method parameters with @Constraint annotations.
+Improved @ConstructorBinding detection
+Spring Boot 3.0 can now automatically detect @ConstructorBinding annotations on beans
+Spring Boot 3.0 includes updates to Micrometer, the metrics library used by Spring Boot. 
+Spring Boot Actuator metrics collection and reporting will be improved. Metrics like memory usage, garbage collection, etc will be collected out of the box.
+
+what is difference between compile n provided scope in maven?
+
+Compile means that you need the JAR for compiling and running the app. 
+For a web application, as an example, the JAR will be placed in the WEB-INF/lib directory.
+
+Provided means that you need the JAR for compiling, 
+but at run time there is already a JAR provided by the environment 
+so you don't need it packaged with your app. For a web app, this means that the JAR file will not be placed into the WEB-INF/lib directory.
+
+
+what is difference between Jersey vs Jax-RS?
+
+JAX-RS is an specification(just a definition) and Jersey is a JAX-RS implementation
+JAX-RS is an Interface
+Jersey is a class implementing that interface.
+There are other JAX-RS implementations too like wink, RestEasy.
+Jersey is open source, web service framework
+JAX-RS is part of Java EE, which can be used with other 
+Java EE technologies for Developing RESTful services.
+
+JAX-RS annotations.
+@Path
+@Get
+@Put
+@post
+@Delete
+@Options
+@head
+@produce
+@consume
+
+Parameter annotations
+@PathParam: 
+@QueryParam
+@FormParam
+@MatrixParam
+@CookieParam
+@HeaderParam
+@ProviderParam
+
+sub-resouce locater
+@context annotation
+
+@Path
+If it is required that a username must only consist of lower and upper case numeric characters 
+then it is possible to declare a particular regular expression, which overrides the default regular expression, "[^/]+", for example:
+@Path("users/{username: [a-zA-Z][a-zA-Z_0-9]*}")
+
+
+how tomcate works?
+
+1. Apache Tomcat is an open-source implementation of the Java Servlet, JavaServer Pages (JSP), 
+Java Expression Language, and Java WebSocket technologie
+
+2. It serves as a web server
+3. Servlet container, allowing Java applications to run in a web environment 
+4.It easily integrates with Kubernetes and Jenkins
+
+5. Servlet Container (Catalina): The core component of Tomcat that manages the 
+lifecycle of servlets, handles requests, and dispatches responses. 
+Catalina is Tomcat's servlet container that implements the Servlet API.
+
+6. Class Loading Mechanism
+Common Class Loader: Loads classes shared across all web applications (e.g., libraries in lib).
+Webapp Class Loader: Loads classes specific to a web application from its WEB-INF/classes and WEB-INF/lib directories.
+
+7.  Lifecycle Management
+
+Servlet Lifecycle: Tomcat manages the lifecycle of servlets (initialization via init(), 
+handling requests via service(), and destruction via destroy()).
+
+8. Security
+Role-Based Access Control: Tomcat supports role-based access control, allowing only authorized users 
+to access certain parts of the web application, defined in the web.xml.
+SSL/TLS Support: Tomcat can be configured to support HTTPS, ensuring secure communication between clients and the server.
+Realms: Tomcat uses realms to manage authentication and authorization. 
+A realm represents a database of users, passwords, and roles, 
+which can be configured to use different backends like JDBC, LDAP, or simple text files.
+
+9. Thread Management
+Thread Pooling: Tomcat uses a thread pool to handle incoming requests efficiently. 
+Each request is processed by a thread from the pool, allowing Tomcat to handle multiple requests concurrently.
+
+Tomcat Architecture
+ 1. Server: The top-level component in Tomcat. It represents the entire Tomcat instance and manages the lifecycle of all other components.
+ 2. Service: A service is an intermediate layer between the server and connectors. 
+ It coordinates multiple connectors that listen on different ports and passes requests to the appropriate Engine.
+ 3.Connectors: A connector is responsible for managing the connection between the client and the server.
+  Tomcat supports several connectors, such as HTTP, HTTPS, and AJP
+ 4. Engine: The engine is the core request processing unit of a Service. 
+ It processes the requests received from the connector and passes them to the appropriate Host and Context.
+ 5. Host: Represents a virtual host, which is an association of a network name (e.g., www.example.com) with a web application.
+  A Tomcat instance can have multiple hosts.
+ 6. Context:Represents a single web application running within a virtual host. 
+ Each web application corresponds to a directory in the filesystem containing web resources (HTML, JSPs, servlets, etc.).
+ 7. Realm: Handles security and authentication for web applications. It manages users, passwords, and roles.

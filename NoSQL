@@ -1,0 +1,373 @@
+currnet servlet version is
+servlets 3.0 and JSP 2.2
+
+interfaces in javax.servlet
+
+Servlet
+ServletReqeust
+ServeltResponse
+RequestDispacter
+ServeltConfig
+ServletContext
+Filter
+FilterConfig
+
+classes in javax.servlet package
+GenericServlet
+ServletException
+ServletOutputStream
+ServletInputStream
+
+interfaces in javax.servlet.http
+HttpServletRequest
+HttpServletResponse
+HttpSession
+
+classes in javax.servlet.http
+HttServlet
+Cookie
+
+Methods of Servlet Interface
+
+public void init(ServletConfig config) invoked by web container only once.
+
+public void service(ServletRequest request, ServletResponse response)
+
+public void destroy()
+
+public ServletConfig getServletConfig() returns of the ServletConfig()
+
+public String getServletInfo()
+
+Methods of GenericServlet class?
+
+public void init(ServletConfig config)
+public abstract void service(ServletRequest request, ServletResponse response)
+
+
+public ServletContext getServletContext() returns the object of servletContext
+
+public Enumeration getInitParameterNames() returns all the parameters defined in the web.xml
+
+Methods of HttpServlet class
+HttpServlet Extends GenericServlet class implements Serializable interface
+
+protected void doGet(HttpServletRequest request, HttpServletResponse response)
+protected void doPost(HttServletRequest reqeust, HttpServletResponse response)
+
+what is ServletRequest interface and its methods?
+
+public String getParameter(String name) is used to obtain the value of parameter by name
+
+public String[] getParameterValues(): returns array of String containing the all the values for given name
+it is used mainly used to obtain values of multi select box
+java.util.Enumeration getParameterNames() 
+public String getContentType()
+
+methods in RequestDispatcher interface?
+
+public void forward(ServletRequest request, ServletResponse response) throws ServletException, IOException
+public void include(ServletRequest request, ServlerResponse response) throws ServletException, IOException
+
+how to get RequestDispatcher object?
+
+getRequestDispatcher() method of ServlerRequest interface returns the object RequestDispatcher()
+
+RequestDisptacher rd = req.getRequestDispatcher("servlet2")
+
+sendRedirect in servlet
+
+sendRedirect method of HttpServletResponse interface, it can bu used to redirect the response to another resource
+it may be servlet, jsp or html file
+it always sends the new request
+response.sendRedirect("servlet2");
+it throws IOException
+
+ServletConfig interface
+An object of ServletConfig is created by the web container for each servlet, used to get configuration 
+information from web.xml
+
+Advantages of ServletConfig
+you no need to edit servlet file if information modified from web.xml
+
+methods of servletConfig interface
+public String getInitParameters(String name)
+public Enumeration getInitParametersNames(); it does not take any arugument it takes all parameters
+<init-param>
+
+</init-param>
+public ServletContext getServletContext();
+
+ServletContext interface
+An object of ServletContext object is created by web container at the time of deploying the project
+which is used to get information from web.xml file
+use <context-param> to share the information to many servlets
+Usages of ServletContext
+
+The servletContext object is used to set, get  and remove the attributes from web.xml
+
+The ServletContext object is used to inter - communication 
+The servletContext object is used to interface between container and servlet
+
+how to getServletContext object
+getServletContext()
+getServletConfig().getServletContext();
+
+methods of ServletContext
+
+public String getInitParameters(String name)
+public Enumeration<String> getInitParameterNames();
+public void setAttribute(String name, Object object);
+public Object getAttribute(Object object)
+public void removeAttribute(Object object)
+
+Session Trackings in Servlets
+HttpSession
+Cookie
+URL rewriting
+hidden forms fields
+Cookie is a class
+package nane: javax.servlet.http.Cookie
+Constructor:
+Cookie();
+Cookie(String name, String value);
+Types of Cookies
+Non Perssitent cookie
+Perssitent Cookie
+
+Methods of Cookie class
+public void setMaxAge(int age)
+public String getName(): returns the name of the cookie, the name can not be modified after creation
+public String getValue()
+
+public void setName(String name);changes the name of the cookie
+public void setValue(String name);changes the value of the cookie
+
+public void addCookie(Cookie ck) method of HttpServletResponse interface
+public Cookie[] getCookies(); method of HttpServletRequest interface
+
+how to create a Cookie?
+
+Cookie ck = new Cookie("name", "Vluae");
+
+how to add cookie?
+res.addCookie(ck);
+
+
+how to delete the cookie?
+set the max size of the cookie
+
+ck.setMaxSize(0);
+
+how to get the Cookie?
+
+Cookie ck[] = request.getCokies();
+
+
+HttpSession interface
+
+how to get the HttpSession Object
+the HttpServletRequest provides two methods to get the HttpSession object
+
+public HttpSession getSession();
+returns the current session associated with request or if the request does not sesion creates new one
+
+public HttpSesion getSesion(boolean true)
+
+returns the current session associated with this request or if the request does not have and create is true returns a new session
+
+
+public void invalidate(): invalidates this session unbinds any objects bound to it
+
+
+
+how to install apache tomcat server
+
+go to below site check binary distributions, check system bit 32 or 64 bit
+
+http://tomcat.apache.org/download-60.cgi
+
+after downloading, add it to eclipse
+If you do not have Apache Tomcat on your machine, you will first need to download and unzip Apache Tomcat.
+Start the Eclipse workbench.
+Open Window -> Preferences -> Server -> Installed Runtimes to create a Tomcat installed runtime.
+Click on Add… to open the New Server Runtime dialog, then select your runtime under Apache (Apache Tomcat v7.0 in this example).
+Click Next , and fill in your Tomcat installation directory :
+Ensure the selected JRE is a full JDK and is of a version that will satisfy Apache Tomcat. If necessary, you can click on Installed JREs… to add JDKs to Eclipse.
+Click Finish .
+
+if we get below error while deploying project in tomcat server
+Tomcat version 6.0 only supports J2EE 1.2, 1.3, 1.4, and Java EE 5 Web modules
+
+Solution
+In project, “.settings” folder, find this file “org.eclipse.wst.common.project.facet.core.xml“, change the version of facet="jst.web" to 2.4 or 2.5.
+
+File : org.eclipse.wst.common.project.facet.core.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<faceted-project>
+  <fixed facet="jst.java"/>
+  <fixed facet="jst.web"/>
+  <installed facet="jst.web" version="2.4"/>
+  <installed facet="jst.java" version="6.0"/>
+</faceted-project>
+
+if tomcat started properly, when you type in brower shows 404 exception
+then do the following steps
+
+First, stop your Tomcat, then double click your server, click Server Locations and check Use Tomcat Installation (takes control of Tomcat installation).
+
+Rules to configure servlelt class in web.xml
+<servlet-name>Welcome</servlet-name>
+<servlet-class>com.java.MyServlet</Servlet-Class>
+
+
+jSP important packages
+
+javax.servlet.jsp
+javax.servlet.jsp.tagext
+
+interfaces in javax.servlet.jsp
+JspPage
+HttpJspPage
+
+classes in javax.servlet.jsp
+
+JspWritter
+PageContext
+JspFactory
+JspEngineInfo
+JspExcepiton
+JspError
+
+JspPage interface
+JpsPage interface extends servlet
+
+
+methods in HttpJspPage
+The HttpJspPage interface provides only one method, which exends JspPage
+
+public void _jspService();
+
+jsp scrpting elements
+
+scriptlet tag
+declaration tag
+expression tag
+
+Expresion tag Example:
+
+<%= statement %>
+no need semicolon in case of expression tag
+
+Declaration Tag:
+Declaration tag used to declare fields and methods
+The code written inside the declaration tag placed out side the service method so it does not get memory each time
+
+syntax is:
+<%! ;%>
+
+JSp implicit objects
+
+there are 9 implicit object available
+out
+request
+response
+session
+exception
+application 	 servletContext
+pageContext 	PageContext
+page 			Object
+config   		ServletConfig
+
+
+Jsp Page Directives
+page directive		: apply to entier jsp page
+include directive
+taglib directive
+
+important attributes of jsp page directive
+
+import
+contentType
+extends
+info
+buffer
+language
+isELIgnored
+isThreadSafe
+autoFlush
+session
+pageEncoding
+errorPage
+isErrorPage
+
+Servlet and JSP both are multithreaded
+
+JSp include directive: the include directive is used to include the contents of any other resource,
+it may be jsp file, html file or text file
+at page translation time includes original content of the file
+
+Exception Handling in JSP
+1. by errorPage and isErrorPage attributes of page directive
+2. <error-page> element in web.xml
+web.xml file if you want to handle any exception
+
+<error-page>  
+  <exception-type>java.lang.Exception</exception-type>  
+  <location>/error.jsp</location>  
+  </error-page>  
+  web.xml file if you want to handle the exception for a specific error code
+
+<error-page>  
+  <error-code>500</error-code>  
+  <location>/error.jsp</location>  
+  </error-page>  
+  
+
+JSP Actiong Tags
+jsp:forward
+jsp:include
+jsp:useBean
+jsp:setProperty
+jsp:getproperty
+jsp:plugin
+jsp:param
+jsp:fallback
+
+example:
+<jsp:forward page="printdate.jsp" >  
+<jsp:param name="name" value="javatpoint.com" />  
+</jsp:forward>  
+
+
+JSpBean Example
+
+<jsp:useBean id= "instanceName" scope= "page | request | session | application"   
+class= "packageName.className" type= "packageName.className"  
+beanName="packageName.className | <%= expression >" >  
+</jsp:useBean>  
+
+
+what is difference between http and https?
+e SSL protocol has to evolve constantly as new attacks against it are discovered and squashed. But it is still an impressively robust way of transmitting secret data without caring who sees your messages. There are of course many implementation details not mentioned here, such as the exact format and order of the handshake messages, abbreviated handshakes to pick up recent sessions without having to renegotiate keys and cipher suites, and the numerous different encryption options available at each stage. The key thing to remember is that whilst HTTPS keeps data safe on the wire to its destination, it in no way protects you (as a user or a developer) against XSS or database leaks or any of the other things-that-go-bump-in-the-night. Be happy that it’s got your back, but stay vigilant. In the immortal words of Will Smith, 
+“Walk in shadow, move in silence, guard against extra-terrestrial violence.”
+
+HTTPS takes the well-known and understood HTTP protocol, and simply layers a SSL/TLS (hereafter referred to simply as “SSL”) encryption layer on top of it. Servers and clients still speak exactly the same HTTP to each other, but over a secure SSL connection that encrypts and decrypts their requests and responses. The SSL layer has 2 main purposes:
+
+Verifying that you are talking directly to the server that you think you are talking to
+Ensuring that only the server can read what you send it and only you can read what it sends back
+The really, really clever part is that anyone can intercept every single one of the messages you exchange with a server, including the ones where you are agreeing on the key and encryption strategy to use, 
+and still not be able to read any of the actual data you send.
+
+
+
+
+
+
+
+
+
+
+
+

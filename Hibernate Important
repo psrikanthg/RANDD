@@ -1,0 +1,159 @@
+
+
+Both update() and merge() methods in hibernate are used to convert the object which is in detached state into persistence state.  But there is little difference.  Let us see which method will be used in what situation.
+
+essionFactory factory = cfg.buildSessionFactory();
+Session session1 = factory.openSession();
+ 
+Student s1 = null;
+Object o = session1.get(Student.class, new Integer(101));
+s1 = (Student)o;
+session1.close();
+ 
+s1.setMarks(97);
+ 
+Session session2 = factory.openSession();
+Student s2 = null;
+Object o1 = session2.get(Student.class, new Integer(101));
+s2 = (Student)o1;
+Transaction tx=session2.beginTransaction();
+ 
+session2.merge(s1);
+
+
+See from line numbers 6 – 9, we just loaded one object s1 into session1 cache and closed session1 at line number 9, so now object s1 in the session1 cache will be destroyed as session1 cache will expires when ever we say session1.close()
+Now s1 object will be in some RAM location, not in the session1 cache
+here s1 is in detached state, and at line number 11 we modified that detached object s1, now if we call update() method then hibernate will throws an error, because we can update the object in the session only
+So we opened another session [session2] at line number 13,  and again loaded the same student object from the database, but with name s2
+so in this session2, we called session2.merge(s1); now into s2 object s1 changes will be merged and saved into the database
+Hope you are clear…, actually update and merge methods will come into picture when ever we loaded the same object again and again into the database, like above.
+
+what is flush() in hibernate?
+flush syncs the cache data with data base
+
+Thread state: Both the method wait() and sleep() makes the running thread into Not Runnable state.
+
+Running time:  Both the method wait() and sleep() takes total execution time in milliseconds as an argument, after that it will be expired.
+
+how to configure composit key in hibernate, composit means having more that one primary key to one table
+
+<composit-id>
+<composit-key name"name"/>
+<composit-key name="id" />
+<composit-id>
+
+one to one by annotations
+by default in one to one fetch type eagar.
+cascade=CasCadeTye are ALL, Remove, Refresh
+
+and we have to specify the @joinColum(name="pDetail_PK")
+
+if we do not specify the caseCadeType in annotation, we need to set the reference of child element
+
+how to create composit key using annotations?
+@Embeddable
+You can use @Embeddeble and @EmbeddedId to create a composite key and map it with your Entity. 
+how to map the map element in hibernate using annotations?
+@CollectionOfElements(fetch = FetchType.LAZY)
+@JoinTable(name = "JOINTABLE_NAME",
+    joinColumns = @JoinColumn(name = "id"))
+@MapKey(columns = @Column(name = "name"))
+@Column(name = "age")
+private Map<String, String> ages = new HashMap<String, String>();
+
+how to map many to many using annotations?
+@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "stock_category", catalog = "mkyongdb", joinColumns = {
+			@JoinColumn(name = "STOCK_ID", nullable = false, updatable = false) },
+			inverseJoinColumns = { @JoinColumn(name = "CATEGORY_ID",
+					nullable = false, updatable = false) })
+					
+
+
+What is the difference between get and load in Hibernate?
+
+get will hit the database if object is not found in the cache and returned completely initialized object
+
+while load() method can return proxy, if object is not found in cache and only hit database
+
+Get method always hit database while load() method may not always hit the database, depending upon which method is called.
+while load() method may return proxy, which is the object with ID but without initializing other properties
+ load() is better because it support lazy loading.
+
+What is the difference between save, persist and saveOrUpdate methods in Hibernate?
+
+After get vs load, this is another Hibernate Interview question which appears quite often. 
+All three methods i.e. save(), saveOrUpdate() and persist() is used to save objects into database, but has subtle differences e.g. save() can only INSERT records but saveOrUpdate() can either INSERT or UPDATE records. Also, the return type of save() is a Serializable object, while return type of persist() method is void. You can also check save vs persist vs saveOrUpdate for complete differences between them in hibernate
+
+What is SessionFactory in Hibernate? is SessionFactory thread-safe?
+SessionFactory, as the name suggest, is a factory to hibernate Session objects. 
+SessionFactory is often built during start-up and used by application code to get session object. 
+It acts as a single data store and it's also thread-safe so that multiple threads can use the same SessionFactory. Usually, a Java JEE application has just one SessionFactory, and individual threads, 
+which are servicing client’s request obtain hibernate Session instances from this factory, that’s why any implementation of SessionFactory interface must be thread-safe. Also, the internal state of SessionFactory, which contains all metadata about Object/Relational mapping is Immutable and can not be changed once created.
+
+What is Session in Hibernate? Can we share single Session among multiple threads in Hibernate?
+
+they maintain a connection with the database and they are not thread-safe, it means you can not share Hibernate Session between multiple threads. Though Session obtains database connection lazily it's good to close session as soon as you are done with it
+
+What is the difference between sorted and ordered collection in hibernate?
+
+A sorted collection is sorted in memory by using Java Comparator while an ordered collection uses database's order by clause for ordering. For large data set it's better to use ordered collection to avoid any OutOfMemoryError in Java, by trying to sort them in memory.
+How to configure Hibernate Second Level Cache using EHCache?
+<dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-ehcache</artifactId>
+        <version>4.3.5.Final</version>
+</dependency>
+<property name="hibernate.cache.use_second_level_cache">true</property>
+<property name="hibernate.cache.use_query_cache">true</property>
+<property name="net.sf.ehcache.configurationResourceName">/myehcache.xml</property>
+
+
+What is the difference between transient, a persistent and detached object in Hibernate?
+
+n Hibernate, Object can remain in three state transient, persistent or detached.  An object which is associated with Hibernate session is called persistent object. Any change in this object will reflect in the database based on your flush strategy i.e. automatic flush whenever any property of object change or explicit flushing by calling Session.flush() method. On the other hand, if an object which is earlier associated with Session, but currently not associated with it are called detached object. 
+
+What does Session lock() method do in Hibernate?
+
+
+Why it's important to provide no argument constructor in Hibernate Entities?
+
+Every Hibernate Entity class must contain a no argument constructor, because Hibernate framework creates an instance of them using Reflection API, by calling Class.newInstance() method. This method will throw InstantiationException if it doesn't found any argument constructor inside Entity class
+
+Session's lock() method reattach object without synchronizing or updating with the database. So you need to be very careful while using lock() method. By the way, you can always use Session's update() method to sync with the database during reattachment. Sometimes this Hibernate question is also asked as what is difference between Session's lock() and update() method. 
+
+What is Second-level Cache in Hibernate?
+This is one of the first interview question related to caching in Hibernate, 
+you can expect few more. Second-level Cache is maintained at SessionFactory 
+level and can improve performance by saving few database round trip. 
+Another worth noting point is that second level cache is available to the whole application rather than any particular session
+
+Name some important annotations used for Hibernate mapping?
+
+javax.persistence.Entity: Used with model classes to specify that they are entity beans.
+javax.persistence.Table: Used with entity beans to define the corresponding table name in database.
+javax.persistence.Access: Used to define the access type, either field or property. Default value is field and if you want hibernate to use getter/setter methods then you need to set it to property.
+javax.persistence.Id: Used to define the primary key in the entity bean.
+javax.persistence.EmbeddedId: Used to define composite primary key in the entity bean.
+javax.persistence.Column: Used to define the column name in database table.
+javax.persistence.GeneratedValue: Used to define the strategy to be used for generation of primary key. Used in conjunction with javax.persistence.GenerationType enum.
+javax.persistence.OneToOne: Used to define the one-to-one mapping between two entity beans. We have other similar annotations as OneToMany, ManyToOne and ManyToMany
+org.hibernate.annotations.Cascade: Used to define the cascading between two entity beans, used with mappings. It works in conjunction with org.hibernate.annotations.CascadeType
+javax.persistence.PrimaryKeyJoinColumn: Used to define the property for foreign key. Used with org.hibernate.annotations.GenericGenerator and org.hibernate.annotations.Parameter
+
+Hibernate SessionFactory is thread safe?
+nternal state of SessionFactory is immutable, so it’s thread safe. Multiple threads can access it simultaneously to get Session instances.
+
+Hibernate Session is thread safe?
+Hibernate Session object is not thread safe, every thread should get it’s own session instance and close it after it’s work is finished.
+
+Union:
+Each SELECT statement within UNION must have the same number of columns
+The columns must also have similar data types
+The columns in each SELECT statement must also be in the same order
+The UNION operator selects only distinct values by default
+To allow duplicate values, use UNION ALL:
+Components in Spring MVC:
+@Component, @Repository, @Service and @Controller annotations
+
+

@@ -1,0 +1,20 @@
+
+Docker flow
+
+Docker File -> Docker Image 
+                   |
+				   V
+              Docker container
+               Virtual Machine
+               
+
+               
+how to build docker image
+docker build -t web-demo.jar .
+
+how to see docker image created or not
+docker image ls
+
+how to run docker image
+
+docker run -p  9090:8080 dockerimage-name

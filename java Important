@@ -1,0 +1,1390 @@
+what is JRE, JVM and JDK?
+
+JVM(Java Virtual Machine) is an abstract machine, it is called virtual machine because it does not physically exists.
+it is a specification that provides a run time environment, in which java bytecode can be executed, 
+Three notions: Specification, implementation n instance
+1. A specification where working of Java Virtual Machine is specified. 
+But implementation provider is independent to choose the algorithm. 
+Its implementation has been provided by Oracle and other companies.
+2. An implementation Its implementation is known as JRE (Java Runtime Environment).
+3.Runtime Instance Whenever you write java command on the command prompt to run the java class, an instance of JVM is created.
+
+
+JVA performs the following tasks.
+Loads the code
+Verifies the code, 
+Executes the code, 
+Provides run time environment.
+
+
+jVM contains classloader, memory area, execution engine etch.
+
+JVM provides definitions for the:
+Memory area
+Class file format
+Register set
+Garbage-collected heap
+Fatal error reporting etc.
+
+JVM Architecture
+1. Classloaders
+2. Class(method) Area: Class method area stores per -class structures such as the run time constant  pool, field and method data.
+3. heap: run time data area in which objects are allocated
+4. Stack: Java stack stores frames, it holds local variables and partial results. each thread has a private JVM Stack.
+5. Program Counter Register: contains the address of the java virtual machine instruction currently being exected.
+6. Executive Engine: Executive Engine Contains JIT, Garbage collector compiler.
+7. Java Native Interface
+
+Classlodders:
+Class loaders are part of the Java Runtime environment, when the JVM requests a class, the class
+loader tries to locate the class.
+the java.lang.ClassLoader.loadClass() method is responsible for loading the class definitions into the run time.
+
+ClassLoader is responsible for the following phases during execution flow.
+1.Loading .class file
+2. Linking
+3. Initialisation
+1. Loading: it consists of 3 types of class loader. each class loader has a specific search destination
+to load class files.
+1. BootStrap Class Loader: rt.jar and other core classes for exm. java.lan.* , java.net, java.util, java.io, java.sql packages
+2. Extension Class Loader: it is child class loader of BootStrap class loader, $JAVA_HOME/jre/lib/ext
+3. System/Application Class Loader: it is child class loader of extension class loader, it loads the classfiles from classPath -classpath
+JRE(Java RunTime Environment, it is a set of software tools which are used for developing Java Applications, it is used to provide run time environment, 
+it is implementation of JVM, it physically exists, it contains a set of libraries+other files, that jvm uses at run time.
+JRE=  JVM + class libraries (rt.jar)  + other libraries (if any).
+
+
+JDK: is a software development environment which is used to develop java applications, it physically exists, it contains JRE+development tools
+JDK contains private JVM n few other resources such as an interpreter/load(java), compiler(javac) an archiver(jar).
+JDK = JRE + JVM.
+
+2. Linking
+Linking phase consists of 3 sub-steps
+1. Verification
+2. Preparation
+3. Resolution
+
+1. Verification process:
+the verficatin process involves verifying that the .class file(byte code) is compatible with JVM specifications.
+
+2. Preparation: This phase involves memory allocation to class variables(static).it also initializes the class
+variables with appropriate values.
+
+3.Resolution: . This includes references to classes, interfaces, fields, and methods.
+
+3.Initialisation
+it happens after linking.
+involves execution of a static initializers in the class
+
+what is Interpreter?
+Ans: Interpreter responsible for converting bytecode into machine instructions set line by line.
+because of this java is both compiled n interpreted language.this happens at run time.
+
+what is JIT compiler?
+The JIT compilation process converts frequently executed bytecode 
+sequences into optimized native code, which reduces the overhead of interpretation
+
+Describe different parts of heap memory?
+java heap memory divided into several parts
+1. Young generation
+2. Old Generation
+3. MetaSpace(formerly known as PermGen)
+
+1 Young Generation
+  Eden Space: where new objects allocated.
+  Survivor Space((S0 and S1)): Objects that survive garbage collection in Eden moved to here
+  
+ 2. Old Generation
+ Objects that survive multiple garbage collection cycles in young generation are promoted here
+ 
+ 3. MetaSpace
+  Stores class metaData n other static data
+  
+what is garbage collection in java?
+Ans: garbage collection is the process by which JVM reclaims memory by deleting objects that are no longer reachable
+The main types of GC algorithms are Serial, Parallel, CMS(Concurrent mark n sweep) n Garage First
+  
+  
+how does garbage collectors know which objects collect?
+The garbage collectors uses several algorithms to determine which objects are no longer reachable
+1. Reference count
+2. Tracing(Mark and sweep)
+3. Generational GC :L (based young and old)
+  
+what is stop-the-world in java Garbage collection?
+stop-the-world refers to the pause the application execution while garbage collectors runs.
+during this time, all application threads are stopped to allow GC to perform its work  
+  
+  what are the different types of references in java?
+  
+ 1.Strong Reference
+ 2. Soft Reference
+ 3. Weak Reference
+ 4. Phantom  Reference 
+
+Can we force the Garbage collector to run at any time?
+No, we cannot force Garbage collection in Java. Although, 
+we can request it by calling system.gc() or its cousin Runtime.getRunitime().get(). 
+It's not guaranteed that GC will run immediately as a result of calling these methods.
+Does Garbage collection occur in permanent generation space in JVM?
+Yes, Garbage collection can occur in PermGen space. 
+If PermGen cross a threshold or it is full, it can trigger Full Garbage Collector.
+
+How many times does the garbage collector calls the finalize() method for an object?
+Only once.
+
+What is the difference between heap and stack memory in Java?
+ The heap memory is used to store objects, 
+ while the stack memory is used to store 
+ primitive data types and references to objects. 
+ Objects are allocated on the heap and references to those objects are stored on the stack.
+ 
+
+
+what is difference between sleep and wait in java?
+
+1.  Class  belongs :  The wait() method belongs to java.lang.Object class, thus can be called on any Object. The sleep() method belongs to java.lang.Thread class, thus can be called on Threads.
+
+2. Context :  The wait() method can only be called from Synchronized context i.e. using synchronized block or synchronized method. The sleep() method can be called from any context.
+
+3. Locking :  The wait() method releases the lock on an object and gives others chance to execute. The sleep() method does not releases the lock of an object for specified time or until interrupt.
+
+4. Wake up condition :  A waiting thread can be awake by notify() or notifyAll() method. A sleeping can be awaked by interrupt or time expires.
+
+5. Execution :  Each object has each wait() method for inter-communication between threads. The sleep() method is static method belonging to Thread class. There is a common mistake to write t.sleep(1000) because sleep() is a class method and will pause the current running thread not t.
+
+If you call it without holding a lock then they will throw IllegalMonitorStateException in Java. If you are
+
+how to stop a thread?
+
+Please ensure that boolean variable which is used to stop the thread is volatile, otherwise, 
+in the worst case your thread may not stop and run infinitely, Why? because, in the 
+absence of any synchronization instruction e.g. volatile modifier here, the compiler 
+is free to cache the value of boolean variable exit, which means even if the main 
+thread makes it true, Server will always see it false, thus running infinitely.
+
+n order to stop the thread, you need to set the value of this boolean variable to true 
+when you want to stop a running thread. Since you are setting this variable 
+from a different thread e.g. main thread, it's important to mark this variable volatile, otherwise, it's possible for the running thread to cache its value and never check back to main memory for updated value and running infinitely.
+
+
+Reasons a thread may be blocked?
+It has been put to sleep for a set amount of time
+It is suspended with a call to suspend() and will be blocked until a resume() message
+The thread is suspended by call to wait(), and will become runnable on a notify or notifyAll message.
+
+what are search algorithams in java?
+linear Search
+Binary Search
+
+what are sorting algorithams in java?
+Bubble Sort
+Quick Sort
+Selection Sort
+Merge Sort
+Insertion Sort
+
+Which of the following are recommended ways a Thread may be blocked?
+
+) sleep()
+2) wait/notify
+3) suspend
+
+Which of the following statements are true?
+3) The sleep method takes a single parameter that indicates the number of milliseconds it should sleep
+4) sleep is a static method of the Thread class
+
+Which of the following statements are true?
+
+A call to yield can allow any waiting thread to execute depending on the scheduling system of the underlying operating system. There is no version of yield that takes an integer parameter. Weather a higher priority thread gets CPU time than a lower priority thread is platform dependent and cannot be certain.
+
+Which of the following keywords indicates a thread is releasing its Object lock?
+ wait
+ 
+ Which best describes the synchronized keyword?
+ Means only one thread at a time can access a method or block of code
+ 
+ The wait/notify protocol can only be used within code that is synchronized. In this case calling code does not have a lock on the object and will thus cause an Exception at runtime.
+ 
+ How can you specify which thread is notified with the wait/notify protocol?
+ The wait/notify protocol does not offer a method of specifying which thread will be notified.
+ 
+ Which of the following are true?
+ Java scheduling is platform dependent and may vary from one implementation to another
+4) You can set the priority of a Thread in code
+
+
+You have created two strings containing names. Thus
+
+String fname="John";
+String lname="String"
+
+Ans: None of the above
+
+How can you remove an element from a Vector?
+remove method
+
+Read more: http://www.java67.com/2016/04/10-points-about-wait-notify-and-notifyAll-in-java-multithreading.html#ixzz4XthFZWeB
+
+Single tone can be break by below concepts
+Reflection
+Serilization/Deserilization; 
+Multi Threaded Program: synchronized; double checking locking
+Clone
+Multiple Class Loaders
+Garbage Collection
+
+Reflection
+ private Constructor(){
+  if(instance!= null){
+   throw new RunTimeException("Sol Instance already created");
+  
+  }
+ 
+ }
+ 
+ Serilization/Deserilization;
+ private Object readResolver() throws ObjectStreamException{
+   return solInstance;
+ 
+ }
+ 
+ method hiding means private method
+ 
+ 
+Multi Threaded Program: synchronized; double checking locking
+double checking is a problem called half initialized instance, volatile keyword
+static  class Holder {
+ static final SingleTon s = new SingleTone()
+
+}
+
+Enum are thread safety
+by using enum also we can create singleTone object
+virtual method means that method is overriden
+In Java, all non-static methods are by default "virtual functions." 
+Only methods marked with the keyword final, which cannot be overridden, 
+along with private methods, which are not inherited, are non-virtual.
+
+
+
+what are class Loaders in java
+there are 3 class loaders
+1. Bootstrap Class Loader
+2. Extensions Class Loader
+3. System Class Loader
+
+class loading sub system is contains
+loading, linking initialize
+
+Load: Bootstrap class loader like(rt.java)
+
+Extension class loaders (jre/lib/ext) means additional jars
+
+Application class loaders
+Classpath. -CP
+
+
+Link contains
+verify: in verify state it verifies the binary data
+Prepare: in prepare state memory allocated for static variables, and also class variable set to default values
+Resolve: in resolve state, all symbolic class variables are resolved to their assigned values
+
+Initialize:
+in initialize state, all static blocks get called
+
+classNotFoundException: 
+ClassDefNotFound comes in resolve phase for example
+class X{
+  has Class Y reference variables
+}
+ while resolved state, if class y not found then it throws the ClassDefNotFound Exception
+ 
+ Method Area:
+ method area also  called as a PermGen Space
+ by default it has 64MB if we want change the size use below
+ -XX:MaxPermSize
+ 
+in java 8 we called permGen Space as a metaspace
+
+Heap memory:
+outofmemory error.
+arrays are objects which will store in heap memory
+heap memory can be tuned using -Xms, -Xmx
+
+JAVA STACKS. 
+FOR RECURISIVE METHOD CALL IT THROWS THE JAVA.LANG.STACKOVRFLOW EXCEPTION
+
+TO INCREASE THE SIZE OF THE STACK WE CAN USE -Xss
+
+Execution Engine has the following components
+interpreter HotSpot JIT Compiler GC
+
+ Design Patterns
+ Bridge Design patterns(Structure Design patterns)
+
+Bridge Design pattern separates the abstraction hierachy and implementation hierarchy in two different layers  so that 
+change in one layer will not impact the change in other layer
+
+DAO Design pattern:
+it separates the low level data access APi or operations from high level business services
+Adapter Design Pattern: (Structural Design Pattern)
+Adapter design pattern works a a bridge between two incompatible interfaces.  This pattern involves a single class
+called adapter which is responsible for communication between two independent or compatible interfaces
+
+
+
+Difference Between POJO, JavaBeans, DTO and VO?
+POJO, also known as Plain Old Java Object, is an ordinary Java object that does not have references to any particular framework.
+It's a term used to refer to a simple, lightweight Java object.
+A POJO does not use any naming convention for properties and methods.
+
+
+public class EmployeePOJO {
+
+    public String firstName;
+    public String lastName;
+    private LocalDate startDate;
+
+    public EmployeePOJO(String firstName, String lastName, LocalDate startDate) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.startDate = startDate;
+    }
+
+    public String name() {
+        return this.firstName + " " + this.lastName;
+    }
+
+    public LocalDate getStart() {
+        return this.startDate;
+    }
+}
+
+What Is a JavaBean?
+A JavaBean is mostly like a POJO, with some strict set of rules on how to implement it. 
+
+The rules specify that it should be serializable, have a null constructor, and allow access to variables using methods that follow the getX() and setX() convention.
+public class EmployeeBean implements Serializable {
+
+    private static final long serialVersionUID = -3760445487636086034L;
+    private String firstName;
+    private String lastName;
+    private LocalDate startDate;
+
+    public EmployeeBean() {
+    }
+
+    public EmployeeBean(String firstName, String lastName, LocalDate startDate) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.startDate = startDate;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    // additional getters and setters
+}
+
+Here, in order to convert the POJO into a JavaBean, we've implemented the Serializable interface, marked properties as private, and used getter/setter methods to access the properties.
+
+what  is The DTO Pattern
+A DTO, also referred to as Data Transfer Object, encapsulates values to carry data between processes or networks.
+A DTO does not have any explicit behavior. It basically helps in making the code loosely coupled by decoupling the domain models from the presentation layer.
+One more advantage of this pattern is the encapsulation of the serialization's logic. It lets the program store and transfer data in a specific format.
+
+DTOs have flat structures without any business logic. They use the same format as that of POJOs. A DTO only contains storage, accessors, and methods related to serializing or parsing.
+
+public class EmployeeDTO {
+
+    private String firstName;
+    private String lastName;
+    private LocalDate startDate;
+
+    // standard getters and setters
+}
+
+what is VO?
+
+VO, also known as the Value Object, is a special type of object that can hold values such as java.lang.Integer and java.lang.Long.
+
+A VO should always override the equals() and hashCode() methods. 
+VOs generally encapsulate small objects such as numbers, dates, strings, and more. 
+They follow the value semantics, i.e., they directly change the object's value and 
+pass copies around instead of references.
+
+It's a good practice to make Value Objects immutable. The change in values occurs only by creating a new object and not by updating values in the old object itself. This helps in understanding the implicit contract that two Value Objects created equal should remain equal.
+
+Let's define EmployeeVO and override the equals() and hashCode() methods:
+public class EmployeeVO {
+
+    private String firstName;
+    private String lastName;
+    private LocalDate startDate;
+
+    public EmployeeVO(String firstName, String lastName, LocalDate startDate) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.startDate = startDate;
+    }
+    // Getters
+
+    @Override
+    public boolean equals(Object obj) {
+        return Objects.equals(firstName, this.firstName)
+          && Objects.equals(lastName, this.lastName)
+          && Objects.equals(startDate, this.startDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, lastName, startDate);
+    }
+}
+
+
+select * from employee group by salary order by salary desc limit 1,1
+select * from employee group by salary order by salary desc limit 1,1
+select name, max(Salary) as salary from employee where salary IN (select salary from employee minus 
+select max(salary) from employee;
+
+left join example
+select a.name, b.dateofbirth from table1 a left join table2 b on a.id =b.id;
+
+what is proxy desing pattern?
+provide control to access the original object
+Example: office internet provide based on role to employee
+it provides protection to the original object from outside the world
+
+what are methods in Optional Class?
+Optional.of();
+Optional.ofNullable();
+
+
+======================================================================
+ 
+
+
+String PATTERN_MOBILE_NUMBER_VALID_CHARACTERS = "[^0-9]";
+
+how to find special characters in mobile Number?
+public static boolean validateSpecialCharactersForMobileNumber(String value) {
+        return Pattern.compile(PolicyConstants.PATTERN_MOBILE_NUMBER_VALID_CHARACTERS, Pattern.CASE_INSENSITIVE).matcher(value).find();
+
+    }
+	
+
+can enum declared outside class marked as static, final, abstract, protected or private?
+Answer: No
+
+interface TestDefault{
+  static default void m3(); 
+
+
+}
+
+//Illegals58gv58
+
+how do you express is-a relationship?
+using extends or implements.
+
+can abstract class have constructors?
+Yes
+
+
+class Top{
+ public Top(String s){
+  System.out.println("B");
+ }
+
+}
+
+public class Bottom2 extends Top{
+public Bottom2(String s){
+System.out.println("D");
+}
+public static void main(String args[]){
+new Bottom2("C");
+System.out.println("");
+
+
+}
+
+
+
+}
+Answer: Compilation reason no arugment constructor
+
+interface I1{
+  default int doStuff(){
+  return 1;
+  }
+
+}
+
+public class MultiInt implement I1{
+public static void main(String args[]){
+   new MultiInt().go();
+}
+
+void go(){
+  System.out.println(doStuff());
+}
+
+int doStuff(){
+}
+
+}
+	Answer : Fails due to no Access Modifier
+	
+int x, y=x+1, z; is it valid expression, reason: x is not initalized
+
+
+try{
+int x=Integer.parseInt("two");
+
+}catch(ClasCastException ex){
+
+}
+Answer: Runtime Error fails
+
+ArrayList<String> steps = new ArrayList<String>();
+steps.add("a");
+steps.add("b");
+steps.add("c");
+steps.add("d");
+steps.add("a");
+steps.add("b");
+steps.add("c");
+System.out.println("steps -->"+steps)
+abcdabc
+
+
+
+
+
+Which of the following are advantages of using the AWS Cloud? (Select TWO)
+
+
+Which AWS service can be used to automate code deployment to EC2 instances as well as on-premises instances?
+AWS CodeDeploy
+A developer would like to automate operations on his on-premises environment using Chef and Puppet. Which AWS service can help with this task?
+AWS OpsWorks is a configuration management service that provides managed instances of Chef and Puppet. Chef and Puppet are automation platforms that allow you to use code to automate the configurations of your servers. OpsWorks lets you use Chef and Puppet to automate how servers are configured, deployed, and managed across your Amazon EC2 instances or on-premises compute environments.
+
+A start-up would like to quickly deploy a popular technology on AWS. As a Cloud Practitioner, which AWS tool would you use for this task?
+Quick Starts are built by AWS solutions architects and partners to help you deploy popular technologies on AWS, based on AWS best practices for security and high availability. These accelerators reduce hundreds of manual procedures into just a few steps, so you can build your production environment quickly and start using it immediately.
+
+Each Quick Start includes AWS CloudFormation templates that automate the deployment and a guide that discusses the architecture and provides step-by-step deployment instructions.
+
+Which of the following are correct statements regarding the AWS Shared Responsibility Model? (Select two)
+
+
+Which of the following S3 storage classes takes the most time to retrieve data (also known as first byte latency)?
+"S3 Glacier Deep Archive" - S3 Glacier Deep Archive is Amazon S3’s lowest-cost storage class and supports long-term retention and digital preservation for data that may be accessed once or twice in a year. It is designed for customers — particularly those in highly-regulated industries, such as the Financial Services, Healthcare, and Public Sectors — that retain data sets for 7-10 years or longer to meet regulatory compliance requirements. S3 Glacier Deep Archive can also be used for backup and disaster recovery use cases. It has a retrieval time (first byte latency) of 12 to 48 hours.
+
+Please review this illustration for S3 Storage Classes data retrieval times. You don't need to memorize the actual numbers, just remember that S3 Glacier Deep Archive takes the most time to retrieve data
+
+
+EBS - Amazon Elastic Block Store (EBS) is an easy to use, high-performance block storage service designed for use with Amazon Elastic Compute Cloud (EC2) for both throughput and transaction-intensive workloads at any scale. A broad range of workloads, such as relational and non-relational databases, enterprise applications, containerized applications, big data analytics engines, file systems, and media workflows are widely deployed on Amazon EBS.
+
+Instance Store - An instance store provides temporary block-level storage for your EC2 instance. This storage is located on disks that are physically attached to the host computer. Instance store is ideal for the temporary storage of information that changes frequently, such as buffers, caches, scratch data, and other temporary content, or for data that is replicated across a fleet of instances, such as a load-balanced pool of web servers. Instance storage is temporary, data is lost if instance experiences failure or is terminated. EC2 instance store cannot be used for file sharing between instances.
+
+Incorrect options:
+
+EFS - Amazon Elastic File System (Amazon EFS) provides a simple, scalable, fully managed, elastic NFS file system. It is built to scale on-demand to petabytes without disrupting applications, growing and shrinking automatically as you add and remove files, eliminating the need to provision and manage capacity to accommodate growth. Amazon EFS is designed to provide massively parallel shared access to thousands of Amazon EC2 instances, enabling your applications to achieve high levels of aggregate throughput and IOPS with consistent low latencies.
+
+S3 - Amazon Simple Storage Service (Amazon S3) is an object storage service that offers industry-leading scalability, data availability, 
+, and performance. This means customers of all sizes and industries can use it to store and protect any amount of data for a range of use cases, such as websites, mobile applications, backup and restore, archive, enterprise applications, IoT devices, and big data analytics.
+
+ECS - Amazon Elastic Container Service (ECS) is a highly scalable, high-performance container management service that supports Docker containers and allows you to easily run applications on a managed cluster of Amazon EC2 instances. This is not a storage service and has been added as a distractor.
+
+Which entity ensures that your application on Amazon EC2 always has the right amount of capacity to handle the current traffic demand?
+Auto Scaling
+
+
+What are the different types of NoSQL databases? Give some example.
+Key value store NoSQL database
+Document store NoSQL database
+Column store NoSQL database
+Graph base NoSQL databse
+
+Is MongoDB better than other SQL databases? If yes then how?
+MongoDB is better than other SQL databases because it allows a highly flexible and scalable document structure.
+
+What type of DBMS is MongoDB?
+MongoDB is a document oriented DBMS
+
+Does MongoDB support primary-key, foreign-key relationship?
+No. By Default, MongoDB doesn't support primary key-foreign key relationship.
+
+Does MongoDB need a lot of RAM?
+No. There is no need a lot of RAM to run MongoDB. It can be run even on a small amount of RAM because it dynamically allocates and de-allocates RAM according to the requirement of the processes.
+
+By default, which index is created by MongoDB for every collection?
+By default, the_id collection is created for every collection by MongoDB.
+
+Does MongoDB database have tables for storing records?
+No. Instead of tables, MongoDB uses "Collections" to store data.
+
+
+How to do Transaction/locking in MongoDB?
+MongoDB doesn't use traditional locking or complex transaction with Rollback. MongoDB is designed to be light weighted, fast and predictable to its performance. It keeps transaction support simple to enhance performance.
+
+Is it possible to configure the cache size for MMAPv1 in MongoDB?
+No. it is not possible to configure the cache size for MMAPv1 because MMAPv1 does not allow configuring the cache size
+
+What is the difference between MongoDB and Redis database?
+Redis is faster than MongoDB.
+Redis has a key-value storage whereas MongoDB has a document type storage.
+Redis is hard to code but MongoDB is easy.
+
+
+Name the protocol which is used by RESTful web services.
+RESTful web services use a famous web protocol i.e. HTTP protocol. 
+This serves as a medium of data communication between client and server. 
+HTTP standard methods are used to access resources in RESTful web service architecture.
+
+
+Enlist advantages and disadvantages of ‘Statelessness’.
+In every HTTP request from the client, the availability of some information regarding the client state is required by the web service.
+
+Some of the HTTP status codes with their meaning are as follows:
+
+Code 200: This indicates success.
+Code 201: This indicates resource has been successfully created.
+Code 204: This indicates that there is no content in the response body.
+Code 404: This indicates that there is no method available.
+
+How do you get the highest number that exists on a list?
+int[] A = { 6, 8, 3, 5, 1, 9 };
+ 
+        int max = Arrays.stream(A)
+                        .max()
+                        .getAsInt();
+ 
+        int min = Arrays.stream(A)
+                        .min()
+                        .getAsInt();
+						
+
+select s.studentId, s.studentName, a.address from student s inner join address a on s.studentId = a.studentid;
+
+
+mutability and immutability in javascript?
+A mutable object is an object whose state can be modified after it is created.
+Immutables are the objects whose state cannot be changed once the object is created.
+
+
+Java 9 Features
+Platform Module System (Project Jigsaw)
+Interface Private Methods
+Try-With Resources
+Anonymous Classes
+@SafeVarargs Annotation
+Collection Factory Methods
+Process API Improvement
+New Version-String Scheme
+JShell: The Java Shell (REPL)
+Process API Improvement
+Control Panel
+Stream API Improvement
+Installer Enhancement for Microsoft windows and many more
+
+
+================================
+what is output of below one
+ console.log(JSON.stringify([1, 2, undefined, 3]))
+[1,2,null,3]
+
+
+
+
+ ===================================================================
+
+ What are the intermediate and terminal stream operation in java 8 stream
+
+Intermediate operations are operations that do not produce a final result on their own but rather transform or filter the elements of a stream and return a new stream that can be further operated on. Some examples of intermediate operations are:
+
+
+map(): Transforms each element of a stream using a given function.
+filter(): Retains only the elements of a stream that satisfy a given condition.
+distinct(): Removes duplicates from a stream.
+sorted(): Sorts the elements of a stream based on a given ordering.
+limit(): Truncates a stream to a specified maximum size.
+skip(): Skips a specified number of elements from the beginning of a stream.
+Terminal operations are operations that produce a final result or side-effect and terminate the processing of a stream. Once a terminal operation is applied to a stream, the stream cannot be used again. Some examples of terminal operations are:
+
+forEach(): Performs a given action for each element of a stream.
+toArray(): Collects the elements of a stream into an array.
+reduce(): Combines the elements of a stream using a given function and returns a single result.
+collect(): Collects the elements of a stream into a collection or other data structure.
+count(): Counts the number of elements in a stream.
+min(), max(): Returns the minimum or maximum element of a stream based on a given ordering.
+
+
+https://www.interviewbit.com/es6-interview-questions/
+
+=======================================================================
+
+
+https://blog.devgenius.io/java-8-coding-and-programming-interview-questions-and-answers-62512c44f062
+
+https://medium.com/illumination/java-8-stream-api-commonly-asked-interview-questions-2a57081044ef
+
+https://medium.com/@maanand/java-8-interview-questions-c68d7b355f34
+
+
+https://javaconceptoftheday.com/java-8-interview-sample-coding-questions/
+
+
+
+https://testbook.com/interview/java-stream-api-interview-questions
+
+
+
+https://medium.com/@amol_shinde/answers-practice-java-streams-questions-practice-java-streams-questions-8a76cbfee1be-f75a018ee4f5
+
+
+https://binkurt.blogspot.com/2017/10/exercises-to-study-java-stream-api.html
+
+
+https://learnsql.com/blog/25-advanced-sql-query-examples/
+
+https://howtodoinjava.com/java/stream/java-streams-by-examples/
+
+
+https://medium.com/@rathod-ajay/your-guide-to-clear-java-developer-interview-in-2024-36a926ec6719
+
+https://medium.com/javarevisited/java-completablefuture-c47ca8c885af
+
+https://howtodoinjava.com/interview-questions/string-questions/
+
+
+https://javatechonline.com/java-stream-api-interview-questions/
+
+
+https://www.interviewbit.com/spring-security-interview-questions/
+
+https://medium.com/@rohitk12r/top-20-java-8-programming-interview-questions-c06cb1f6e21f
+
+https://javaconceptoftheday.com/interface-vs-abstract-class-after-java-8/#google_vignette
+
+https://javaconceptoftheday.com/category/java-8/
+
+https://www.scaler.com/topics/java/serialization-in-java/
+
+
+https://www.javainuse.com/spring/spring-security-interview-questions
+
+https://www.geeksforgeeks.org/spring-security-interview-questions/
+https://www.geeksforgeeks.org/spring-security-interview-questions/
+https://positivethinking.tech/insights/whats-new-in-spring-boot-3/
+https://medium.com/@GetInRhythm/exploring-spring-6-0-new-features-and-enhancements-for-java-application-development-f98603845986
+
+
+https://medium.com/@AlexanderObregon/common-java-spring-boot-security-interview-questions-and-answers-0513efb6fb12
+
+
+
+https://medium.com/@himani.prasad016/spring-boot-annotations-2894594e3c4b
+
+https://www.javaguides.net/2018/10/spring-boot-annotations.html
+
+https://frontendinterviewquestions.medium.com/top-90-angular-interview-questions-and-answers-55468da98392
+
+https://medium.com/front-end-weekly/promise-vs-observables-vs-subjects-4035c3488ede
+
+https://medium.com/@akshatsharma0610/adapter-design-pattern-in-java-fa20d6df25b8
+
+
+https://rathod-ajay.medium.com/top-60-spring-framework-interview-questions-for-java-developers-2024-contain-all-the-questions-from-f15621f77d2a
+
+
+https://saikomalpendela.medium.com/jax-rs-vs-spring-boot-a980a1b99b43
+
+https://www.geeksforgeeks.org/spring-interview-questions/
+
+https://javaconceptoftheday.com/java-collections-interview-questions-with-answers/
+https://testbook.com/key-differences/difference-between-treemap-hashmap-and-linkedhashmap-in-java
+
+https://javaconceptoftheday.com/concepts-comparison/
+
+https://medium.com/@AlexanderObregon/a-deep-dive-into-java-serialization-e514346ac2b2
+
+https://medium.com/@ilakk2023/understanding-function-identity-f237d584b487
+https://www.javainuse.com/misc/java11-interview-questions
+
+
+https://stacktips.com/articles/java-17-interview-questions-and-answers
+
+https://javaconceptoftheday.com/java-interview-programs-with-solutions/
+
+https://medium.com/@sendvjs/spring-bean-life-cycle-9363332c335e
+
+https://www.javamadesoeasy.com/2015/02/serialization-top-25-interview.html#google_vignette
+
+
+https://medium.com/@vebsrocks6693/java-execution-flow-17f9ef6f93f6
+
+https://medium.com/javarevisited/what-happens-internally-when-you-start-a-spring-boot-application-part1-a683a64c1be8
+
+
+
+==========================================
+what is objectID
+
+clientMachine ID
+client process ID
+Byte Incremented Counter
+TimeStamp
+
+
+Group by equals to aggregate in mongodb
+
+join operations done by lookup
+
+
+what is sharding in mongoDB?
+Sharding is a method for distributing data across multple machines.
+
+does mongoDB support ACID properties?
+Yes
+
+how to query mongoDB with %like%?
+
+db.user.find(name: /a/);
+db.user.find(name: /^pa/);
+db.user.find(name: /ro$/);
+
+what is Covered Query in mongoDB?
+1. All the fields in the query are part of the index that mongoDB scans for that Query.
+2. All the projects fields are part of the index that mongoDB scans on for that query
+
+what is map reduce command ?
+map-reduce is away to perform aggregation.
+
+the Reduce function combines the key-value pair n returns aggregation result.
+
+
+
+========================================================================================
+
+Three Rules to solve Diamond problem
+Rule 1 - Classes take higher precedence than interfaces
+Rule 2 - Derived interfaces or sub-interfaces take higher precedence than the interfaces higher-up in the inheritance hierarchy 
+Rule 3 - In case Rule 1 and Rule 2 are not able to resolve the conflict then the implementing class has to specifically override and provide a method with the same method definition
+
+
+=================================================================================
+
+
+Lambda Expressions                      Equivalent Method References
+(String s) -> Integer.parseInt(s)       Integer::parseInt
+(String l) -> l.toLowerCase()           String::toLowerCase
+(int i) -> System.out.println(i)        System.out::println
+(Student s) -> s.getName()              Student::getName()
+
+() - > s.getName()                      s::getName(), where s refers to Student Object which already exit
+() -> new Student();                    Student::new
+
+ 
+============================================================================================================
+what is chain of Responsibility Pattern?
+it is behavioral pattern.
+it has 3 components
+1. Handler: The Handler is an interface or abstract class that defines common interface for handling requests.
+
+2. Concrete Handler: Concrete Handler classes implement handler interface n provides specific implementations for handling requests.
+
+3. Client: The Client initiates the request and starts the chain of handling.
+Example: Employee -> Manager -> Senior Manager-> Director
+
+
+
+what is iterator design pattern?
+iterator pattern is used to access the elements of an aggregate objects sequentially without exposing its underlying implementation
+
+what is Memento Pattern?
+
+A memento pattern says that to restore the state of an object to its previous state, but it must do this without violating encapsulation, such case is useful in case of error or failure
+
+it is used for undo n redo operations in most software
+
+Memento: stores internal state of the orignator object.
+Originator: uses Memento object to restore its previous state.
+caretaker: resposible for keeping the memento
+
+what is Observer Pattern?
+An observer pattern says that just define one to one dependency so that when one object changes state, all
+its dependents are notified and updated automatically.
+
+
+what is state pattern?
+A state Pattern says that the class behavior changes based on its state, in state pattern, we create objects
+which represent various states and context object whose behaviour varies as its state object changes.
+Example: Accounting db, sales db, management db and controller uses different connection types of connections.
+connection is interface has methods open, close  update
+
+
+what strategy design pattern?
+The Strategy Design Pattern defines a family of algorithms, encapsulates each one, and makes 
+them interchangeable,  allowing clients to switch algorithms dynamically without altering the code structure.
+
+what is template method design pattern?
+the template method design pattern is behavioral design pattern that defines the skeleton of an algoritham
+in a super class but allows subs class to override specific steps of the algorithm without changing its structure.
+it promotes code reuse.
+It is used when the common behavior among sub-classes should be moved to a single common class by avoiding the duplication.
+
+================================================================================================
+
+StringBuffer is synchronized ie. thread safe, Stringbuilder is non synchronized
+StringBuffer is less efficient than String builder, StringBuilder is more efficient than StringBuffer
+StringBuffer was introduced in Java 1.0, StringBuilder was introduced in java 1.5
+=======================================================================================
+what is difference between takewhile n dropWhile()?
+takeWhile is similar to filter in the sense that it expects a predicate and returns a new stream consisting only of the elements that match the given predicate
+takeWhile takes elements from the initial stream while the predicate holds true
+Meaning that when an element is encountered that does not match the predicate
+
+
+dropWhile
+dropWhile is essentially the opposite of takeWhile. Instead of taking elements from the stream until 
+the first element which does not match the predicate, dropWhile drops these elements and
+ includes the remaining elements in the returned stream.
+ 
+ takewhile
+ dropwhile both are ordered streams
+ 
+ what is Executive Service in java?
+ Executive Service is a JDK API that simplifies running tasks in asynchronous mode,
+ Executive Service provides pool of threads and API for assigning tasks to it.
+ The Java ExecutorService is the interface which allows us to execute tasks on threads asynchronously.
+ The Java ExecutorService interface is present in the java.util.concurrent package.
+ The ExecutorService helps in maintaining a pool of threads and assigns them tasks
+ It also provides the facility to queue up tasks until there is a free thread available 
+ if the number of tasks is more than the threads available.
+ 
+ java.util.concurrent package.
+ below methods avaialble
+execute(Runnable task)
+submit(Runnable task) / submit(Callable<T> task)
+invokeAny(Collection<? extends Callable<T>> tasks)
+invokeAll(Collection<? extends Callable<T>> tasks)
+
+1.Thread Pooling: Executor services manage a pool of worker threads, 
+reducing the overhead of thread creation and destruction.
+
+2.Task Queuing: Executor services maintain a queue of tasks, 
+ensuring efficient utilization of resources and preventing overload.
+
+3.Abstraction: Executor services abstract away low-level thread management, 
+providing a cleaner and simpler API for concurrent programming.
+
+Thread:
+Represents a single path of execution.
+Each thread operates independently.
+Multiple threads can execute concurrently.
+Requires explicit management of threads, including creation, start, and synchronization.
+
+Single Thread Executor Service:
+Utilizes a single worker thread for task execution.
+Tasks are executed sequentially, one after another.
+Useful for scenarios where tasks need to be processed sequentially or in a specific order.
+Provides a simpler abstraction for managing tasks compared to dealing with raw threads.
+
+
+
+what is difference between Arrays.asList n ArrayList<>(Arrays.asList());
+Arrays.asList gives fixed size, adding removing not possible
+Arrays.asList return type java.util.Arrays.ArrayList which different from java.util.ArrayList
+ArrayList no.
+
+
+what is Promises?
+Promises are fundamental part of JavaScript, providing a way to handle asynchronous operations, A promise
+represents a value which might be available now or in the future, or never.
+
+1. Single Value: Promise represents a single value that will be resolved or rejected.
+2. Immutable State: Once promise resolved or rejected, its state can not be changed.
+3. Error Handling: Promises have built-in error handling throw .catch() or try.. catch blocks.
+
+Example: 
+function fetchData(){
+
+ return new Promise((resolve, reject) => {
+  setTimeOut(() =>{
+  resolve('Data fetched successfully');
+  
+  }, 2000);
+  
+ });
+}
+
+fetchData().then(data => {
+  console.log(data); //data fetched successfully
+})
+.catch(error => {
+console.error(error);
+
+});
+
+
+what are Observables?
+Observables are part of Reactive Programming paradigm, are used to handle asynchronous data streams. 
+they can emit multiple values over time and are cancellable
+1. Mutlple Values: Observables can emit mutlple values asynchronous.
+2. Data Stream: Observables represent a stream of data that can be observed over time.
+3. Operators: they support more power full operators like map, filter and merge.
+Example:
+
+import { fromEvent } from 'rxjs';
+
+const clicks = fromEvent(document, 'click');
+
+clicks.subscribe(event => {
+    console.log('Mouse Clicked at:', event.clientX, event.clientY);
+});
+
+
+what is subjects?
+
+Subjects are special type of Observable that act as a both observer and Observable.they allow multicasting values into 
+multiple Observers.
+
+Example:
+const chatSubject = new Subject();
+
+// Component 1 sends a message
+chatSubject.next('Hello from Component 1!');
+
+// Component 2 subscribes and receives the message
+chatSubject.subscribe(message => {
+    console.log('Component 2 Received:', message);
+});
+
+// Component 3 sends another message
+chatSubject.next('Hi from Component 3!');
+
+Whats new in Java 17?
+
+Text Blocks
+Improved Switch Statements
+Record Type: record classes are a special 
+kind of immutable class which is meant to replace data transfer objects(DTOs)
+Sealed Classes: 
+sealed class will give us more control over which classes are allowed to extend our classes.
+public abstract sealed class FruitSealed permits AppleSealed, PearSealed {
+}
+public non-sealed class AppleSealed extends FruitSealed {
+}
+public final class PearSealed extends FruitSealed {
+}
+
+Pattern Matching with ‘instance of’: 
+Old Style:
+private static void oldStyle() {
+    Object o = new Grape(Color.BLUE, 2);
+    if (o instanceof Grape) {
+        Grape grape = (Grape) o;
+        System.out.println("This grape has " + grape.getPits() + " pits.");
+    }
+}
+
+private static void patternMatchingInJava17() {
+     Object o = new Grape(Color.BLUE, 2);
+     if (o instanceof Grape grape) {
+         System.out.println("This grape has " + grape.getPits() + " pits.");
+     }
+}
+Helpful NullPointerException
+Compact Number Formatting Support
+A factory method is added to NumberFormat class in order to 
+format numbers in compact, human-readable form according to the Unicode standard
+NumberFormat shortFormat = NumberFormat.getCompactNumberInstance(Locale.ENGLISH, NumberFormat.Style.SHORT);
+System.out.println(shortFormat.format(1000))
+
+Day Period Support Added
+A new pattern “B” is added to DateTime pattern allowing it to specify the time of the day.
+Performance Benchmarks
+Java 17 is 8.66% faster than Java 11 and 2.41% faster than Java 16 for G1GC (default garbage collector).
+
+what is difference between Integer.valueOf(), Integer.parseInt()?
+Integer.valueOf()               							Integer.parseInt()      
+It returns type is An Integer					It return type is is a primitive integer value		
+Wrapper Object
+
+it accepts a String, a char or an int as		it accepts only a String type object
+a parameter
+
+When we pass a character as a parameter,			
+ it will return the corresponding ASCII value.  When we pass a character as a parameter, the compiler will throw an error.
+ 
+Integer.valueOf() can cache some values for better  Calling Integer.parseInt() method will always create a new integer value.
+  performance means calling this method with the 
+  same value may return the same object reference.
+  
+Both Integer.parseInt() and Integer.valueOf() are very useful methods for
+converting strings to integers. Generally,
+ if we need a primitive int value, we can use 
+ Integer.parseInt(), and if we need an Integer wrapper object, we can use Integer.valueOf(). The performance of Integer.valueOf() method is significantly faster than Integer.parseInt() method.
+ 
+ what is difference between comparable vs comparator interface ?
+ 
+Comparable:
+Single Sorting Sequence
+Comprable effects original class
+Comparable provides CompareTo()method
+Comparable present in java.lang
+we can sort list of elements comparable
+type Collections.sort(list)
+
+Comparator:
+Comparator provides multiple sorting elements
+Comparator does not effect the original class
+Comparator provides comapre()method
+A Comparator is present in the java.util package
+we can sort the list of elements  by
+collections.sort(list, comparator);
+
+
+what is difference between String n StringBufffer?
+
+The String class is immutable           The StringBuffer class is mutable
+
+String is slow and consumes more         StringBuffer is fast and consumes less memory
+memory when we concatenate too many      when we concatenate the strings
+strings because every time it creates
+new object
+
+String class override the equals() method  StringBuffer class doesn't override the equals() method of Object class
+of object class. so you can compare the 
+contents of two strings by equals()method.
+                                         
+String class uses String constant pool.  StringBuffer uses Heap memory
+string is basically an object that 
+represents sequence of char values
+
+it is java.lang package
+it implements Serializable, Comparable and
+CharSequence interfaces.
+It is automatically thread safe.
+
+What is Thread in java?
+A thread is a lightweight subprocess, the smallest unit of processing. 
+It is a separate path of execution.
+Thread Synchronization
+There are two types of thread synchronization mutual exclusive and inter-thread communication.
+Mutual Exclusive
+	Synchronized method.
+	Synchronized block.
+	Static synchronization.
+Cooperation (Inter-thread communication in java)
+
+what is multi threading in java?
+Multithreading in Java is a process of executing multiple threads simultaneously.
+Threads share the same address space.
+A thread is lightweight.
+At least one process is required for each thread.
+ A thread is executed inside the process. There is context-switching between the threads. 
+ There can be multiple processes inside the OS, and one process can have multiple threads.
+ Threads can be thought of as independent, parallel execution paths.
+ 
+ 
+ can static method can be synchronized?
+ Yes static method can be synchronized, lock on class level, not on object level
+If you make any static method as synchronized, the lock will be on the class not on object.
+ 
+ can static method can be overriden?
+ No, static method can not be overriden, because they are class level.
+ 
+ Can we overload a static method?
+ The answer is Yes. We can overload static methods. But remember that the method signature 
+ must be different. For example, consider the following Java program.
+
+
+what is CompletableFuture?
+CompletableFuture is a class introduced in Java 8 that allows us to write asynchronous, 
+non-blocking code. It is a powerful tool that can help us write code that is more efficient 
+and responsive.
+
+Future vs CompletableFuture
+Blocking vs non-blocking: One of the key differences between Future and CompletableFuture 
+is that Future is a blocking API, whereas CompletableFuture is non-blocking. 
+With a Future object, you must call the get() method to retrieve the result, 
+but this method blocks until the result is available. In contrast, with a 
+CompletableFuture object, you can use various non-blocking methods to retrieve the result, 
+such as thenApply(), thenAccept(), or join().
+
+Exception Handling: CompletableFuture provides better exception handling than Future. 
+With Future, you can only check if the computation completed successfully or not. 
+If an exception occurs during the computation, you have to catch it explicitly. 
+In contrast, with CompletableFuture, you can handle exceptions in a more declarative 
+way using methods like exceptionally() and handle().
+
+Completion: With a Future object, there is no way to explicitly complete the future. 
+Once you submit a task to an executor service and get a Future object in return, 
+you can only wait for the task to complete. With CompletableFuture, you have more
+ control over the completion of the future. You can complete it explicitly by calling complete(),
+  completeExceptionally(), or cancel() methods
+  
+  Run multiple futures in parallel using CompletableFuture
+  CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() -> {
+    // Some long-running operation
+    return "Result 1";
+});
+
+CompletableFuture<String> future2 = CompletableFuture.supplyAsync(() -> {
+    // Some long-running operation
+    return "Result 2";
+});
+
+CompletableFuture<String> future3 = CompletableFuture.supplyAsync(() -> {
+    // Some long-running operation
+    return "Result 3";
+});
+
+CompletableFuture<Void> allFutures = CompletableFuture.allOf(future1, future2, future3);
+
+allFutures.thenRun(() -> {
+    // All futures completed
+    String result1 = future1.join();
+    String result2 = future2.join();
+    String result3 = future3.join();
+    System.out.println(result1 + ", " + result2 + ", " + result3);
+});
+
+
+
+what is AsyncRestTemplate vs resttemplate in spring boot?
+AsyncRestTemplate allows users to make asynchronous service calls. 
+The logic is similar to restTemplate, except that the service is called asynchronously.
+The type AsyncRestTemplate is deprecated
+
+
+RestTemplate:
+In Spring Framework, RestTemplate is an older class used for making synchronous HTTP requests. 
+While it is still supported, it is gradually being replaced by more modern alternatives. 
+RestClient is one such alternative that has been introduced to provide a more fluent and functional style of API.
+	Synchronous and blocking HTTP client.
+	Easy to use but doesn't support modern asynchronous and non-blocking paradigms.
+	Still supported but not recommended for new development.
+WebClient:
+	Part of the Spring WebFlux module.
+	Supports both synchronous and asynchronous (non-blocking) operations.
+	Recommended for new development.
+	More flexible and functional API compared to RestTemplate.
+RestClient:
+    Another modern alternative introduced in Spring, though it may refer to different libraries or new enhancements in the Spring ecosystem.
+Offers a fluent and functional programming style.
+
+The RestClient throws two types of exceptions for a failed request: 
+HttpClientErrorException: with 4xx response code 
+HttpServerErrorException: with 5xx response code
+
+what is Reentrant Monitor in Java?
+ Reentrant Monitor refers to a synchronization mechanism where a thread that already 
+ holds a lock on a synchronized block or method can re-enter that block or method without blocking itself. This is achieved using the synchronized keyword
+A thread can acquire a lock it already holds. This is crucial for 
+avoiding deadlock in recursive methods or when a method calls another 
+method that requires the same lock.
+public class ReentrantExample {
+    public synchronized void outerMethod() {
+        System.out.println("In outerMethod");
+        innerMethod();  // The same thread can re-enter the synchronized block
+    }
+
+    public synchronized void innerMethod() {
+        System.out.println("In innerMethod");
+    }
+
+    public static void main(String[] args) {
+        ReentrantExample example = new ReentrantExample();
+        example.outerMethod();
+    }
+}
+
+What algorithm is used by these Java APIs Arrays.sort() and Collections.sort()?
+ Arrays.sort():
+Primitive arrays: Quicksort or Dual-Pivot Quicksort.
+Object arrays: Merge Sort(Tim sort).
+
+Collections.sort():
+for Collections: Merge Sort or TimSort
+https://medium.com/@reetesh043/collection-sort-vs-arrays-sort-in-java-1528f83223c3#:~:text=Dual%2Dpivot%20quicksort%20is%20an,sort().
+
+What is a concurrent collection?
+
+Examples of Concurrent Collections:
+ConcurrentHashMap
+CopyOnWriteArrayList
+ConcurrentLinkedQueue
+BlockingQueue (e.g., ArrayBlockingQueue, LinkedBlockingQueue)
+
+
+What are the time/space complexities of HashMap, ArrayList, and LinkedList?
+
+HashMap: 
+HashMap gives constant time performance of O(1) for the operations like get() and put() methods
+Search (get/containsKey):
+Average: O(1);
+ArrayList: 
+Retrieval operation in ArrayList is of order of O(1).	
+Insertion and removal operations in ArrayList are of order O(n).
+
+LinkedList:
+Insertion and removal in LinkedList are of order O(1).
+Retrieval operation in LinkedList is of order of O(n).
+
+What is the Java Memory Model as per the latest Java version?
+Introduction of Metaspace: In Java 8, the Permanent Generation (PermGen) space was replaced with Metaspace,
+JDK Flight Recorder (JFR): In Java 9, the JDK Flight Recorder (JFR) was introduced as a commercial feature. 
+ZGC garbage collector: In Java 11, the ZGC garbage collector was introduced as an experimental feature.
+Java Improvements for Docker Containers :
+ 
+
+What are hashCode() and equals()? If you have Object as a custom key in a map, what will happen? How to use it correctly?
+we have to override hashCode an equals() other wise we see unexpcected behaviour in set, or hashMap
+
+
+How does ThreadPoolExecutor work?
+
+ThreadPoolExecutor manages a pool of threads, efficiently reusing them to execute a 
+large number of tasks.
+
+Core Concepts and Parameters:Core Pool Size (corePoolSize): The minimum number of threads 
+
+that should always be kept alive in the pool
+Maximum Pool Size (maximumPoolSize): The maximum number of threads that can be created 
+and run simultaneously in the pool
+Keep-Alive Time (keepAliveTime): The maximum time that excess idle threads (more than the core pool size) will wait for new tasks before terminating
+Work Queue (BlockingQueue<Runnable>): A queue that holds tasks before they are executed.
+Thread Factory: A factory for creating new threads. It is used to create new threads as needed
+Thread Lifecycle in ThreadPoolExecutor:
+Handling Rejected Tasks:
+Thread Termination:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

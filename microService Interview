@@ -1,0 +1,15 @@
+1 . Database per service pattern
+2. Saga pattern
+  2a. Choreography:
+  2b. Orchestration:
+  
+3.  API gateway pattern
+4. Aggregator design pattern
+5. Circuit breaker design pattern
+5. Command query responsibility segregation (CQRS)
+6.  Asynchronous messaging
+7. Event sourcing
+8. Strangler
+9. Decomposition patterns
+  9a. Decomposition by subdomain:
+  9b. Decomposition by transaction:

@@ -1,0 +1,72 @@
+
+what is Kubernetes?
+
+it is open source container orchestration tool
+Developed by Google
+Helps you manage containerized applications
+
+helps you in different deployment environments like 
+virtaul, phyiscal and cloud
+
+what problems Kubernetes solves?
+trend from monolith to Mircroservices
+
+increased usage of Containers
+Demand for a proper way of managing those hundreds of containers
+
+what features do orchestration tools offer?
+High Availablitiy o no down time
+Scalability or high performance
+Disaster recovery -back up and restore
+
+Kubernetes components
+Master node
+worker nodes
+
+Master Node
+  Api Server: UI, API, CLI, entry point to k8s cluster
+  Controller Manager:keep track of whats happening in the cluster
+  Scheduler:ensure pods placement
+  etcd: for back up and restore
+  
+Note: we need to back up master nodes in case failure, no back up for master nodes 
+hard to access cluster infor, in PROD we have to run two master nodes
+
+Node : node means physical server
+pod: smallest unit like reall application
+
+Virtual Network: Master nodes and worker nodes communication
+
+Kubernetes Basic Concepts
+POD is smalles unit
+1 pod per application
+
+Service: pods used to talk to each other using service, even pod replaced service remain same
+ 1. uses perminanet IP address
+ 2. Load Balancer
+ 
+ Kubernetes configuration
+ API server uses yaml or json for configuration, configuration goes to API server
+ Deployment: A template for creating PODS
+ 
+ kubernetes is a Declarative means what we declare in YAML file, it gives us
+ is ==should
+ 
+ Kubernetes Components explained! Pods, Services, Secrets, ConfigMap
+ 
+ note: k8s does not manage data persistance.
+ voumes are used to store data
+ 
+ statefullset: specifically for database applications as those are statefull
+ Deployment: deployment for stateless ie application deployment
+ Ingress: 
+ Secrets:for passwords, usernames
+ configmap:for configurations of application ie application property files
+
+
+
+
+
+
+
+

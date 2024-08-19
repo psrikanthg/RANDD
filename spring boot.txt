@@ -1,0 +1,1852 @@
+What are the Spring Boot starters and what are available the starters?
+ Purpose of Spring Boot Starters:
+ The primary purpose of a Spring Boot Starter is to provide all the necessary dependencies 
+ in one place so that you don’t have to hunt down and specify each one individually.
+ They help in reducing boilerplate code in your build configuration file (pom.xml for Maven or build.gradle for Gradle).
+ 
+ 
+spring-boot-starter: – This is the core starter and includes logging, auto-configuration support, and YAML.
+spring-boot-starter-jdbc – This starter is used for HikariCP connection pool with JDBC
+spring-boot-starter-web – Is the starter for building web applications, including RESTful, applications using Spring MVC
+spring-boot-starter-data-jpa – Is the starter to use Spring Data JPA with Hibernate
+spring-boot-starter-security – Is the starter used for Spring Security
+spring-boot-starter-aop: This starter is used for aspect-oriented programming with AspectJ and  Spring AOP
+spring-boot-starter-test: Is the starter for testing Spring Boot applications
+
+
+what are ways to change port in spring boot?
+
+using application.property file/applicatioin.yml file
+using EmbeddedServeletContainerCustomizer interface
+using WebServerFactoryCustomizer interface
+using Command -line Parameter
+
+what version of Spring Boot you are using?
+2.3.6 version
+what is latest version of Spring boot?
+3.3.2
+what is applicationRunner in spring boot?
+after staring spring boot application, it will call the method, it is interface
+  
+    public void run( ApplicationArguments args ) throws Exception
+    
+ how to run spring boot application with random ports every time?
+ set server.port =0 so that every we start spring boot application starts it gives random number
+ 
+ what is @SpringBootApplication annotation ?
+ 
+ it is combination of several annotations like below
+ @EnableAutoConfiguration
+ @SpringBootConfiguration or @Configuration
+ @ComponentScan
+
+@EnableAutoConfiguration: 
+This is where Spring Boot shines. It automatically sets up the application based on the 
+libraries you have. For instance, if you have web libraries, it prepares your application 
+to work as a web application
+
+ Spring Boot auto-configures a Dispatcher Servlet if Spring MVC jar is on the classpath.
+ Auto-configures the Jackson if Jackson jar is on the classpat
+ Auto-configures a Data Source if Hibernate jar is on the classpath.
+ 
+There is some example of auto configuration done by Spring Boot
+DispatcherServletAutoConfiguration
+DataSourceAutoConfiguration
+JacksonAutoConfiguration
+ErrorMvcAutoConfiguration (#basicErrorController)
+
+Dispatcher Servlet
+In Spring MVC all incoming requests go through a single servlet is called Dispatcher Servlet 
+(front controller). The front controller is a design pattern in web application development. 
+A single servlet receives all the request and transfers them to all other components of the application.
+it is a class
+
+@SpringBootConfiguration is just an alternative to the Spring standard 
+@Configuration annotation. The only difference between the two is that the @SpringBootConfiguration 
+allows the configuration to be found automatically.
+ This can be especially useful for unit or integration tests.
+
+@configuratin:It tells Spring Boot that this class will define 
+some settings or configurations for the application. 
+For example, you might have configurations for security settings
+ 
+ 
+
+ @ComponentScan:
+ It instructs Spring Boot to look for other components, services, and configurations 
+ in the same package as the class with this annotation, allowing the application to recognize and use them throughout.
+ 
+ the responsiblity of ComponenetScan annotation is to scan class annotated with below annotations
+ @Component
+ @Sterotype annotations like @Controller, @Service @Repository
+ @configuration
+ 
+ what is @Transactional annotation?
+ @Transactional annotation is a powerful tool for managing transactions in spring boot applications.
+ it allows you easily mark methods n classes as transactional, specify the propagation and isolation 
+ levels of transactions, customize the behaviour of transactions using various attributes.
+ by using transactions, you can ensure that data base 	updates are executed in a consistent n reliable
+ way. and any errors are properly handled n rolled back.
+ 
+ by default the @transactions annotations will create a new transaction for the marked method or class
+ if one does not already exist.
+ if transaction does already exist, the marked method or class will be executed within the existing transaction.
+ 
+ @Transactional (Declarative Transaction Management) vs Programmatic Transaction Management.
+ 
+ Note: It’s important to note that
+ the @Transactional annotation only works if you have enabled 
+transactions in your application. In Spring Boot, you can enable 
+transactions by adding the spring-boot-starter-jdbc or 
+spring-boot-starter-data-jpa dependency to your project,
+depending on whether you are using JDBC or JPA for database access. 
+You can then use the @EnableTransactionManagement annotation to
+enable transaction management in your application.
+ 
+ propagation levels are
+ @Transactional(propagation = Propagation.REQUIRED)
+ . For example, you can specify that a transaction should always be created, 
+ regardless of whether a transaction already exists, by using the PROPAGATION_REQUIRED attribute:
+REQUIRED(default) means: getConnection(). setAutocommit(false). commit().
+SUPPORTS
+MANDATORY
+REQUIRES_NEW:  I want my completely own transaction → getConnection(). setAutocommit(false). commit().
+NOT_SUPPORTED
+NEVER
+NESTED
+
+ @Transactional(isolation = Isolation.SERIALIZABLE)
+ 
+ @Transactional(timeout = 10)
+ You can also specify the maximum time that a transaction should take to complete by using the timeout attribute
+ 
+ 
+ what is @configuration annotation?
+ it is class level annotation, the class annotated with @configuration used 
+ by spring container as source of bean definitions for the application context.
+  It allows us to register extra beans in the context or import additional configuration classes.
+  
+ 
+ what is @bean annotation?
+ it is method level annotation, it is an alternative to XML <bean> tag, 
+ it tells the method to produce a bean to be managed by Spring Container.
+ 
+ what is @Component annotation?
+ @component is class level annotation, it is used to mark a java class as a bean,
+  A java class annotated with @Component is found during the class path. 
+  the spring Framework pick it up and configure it in the application context as a Spring Bean
+ The @Component annotation is used to mark a class as a Spring-managed component
+ When a class is annotated with @Component, Spring automatically registers it as a bean in the application context.
+ Dependency Injection: Once a class is registered as a Spring bean, it can be injected 
+ into other beans using the @Autowired annotation or through constructor injection.
+ Spring Boot provides several specialized annotations derived from @Component, 
+ like @Service, @Repository, and @Controller. These are called stereotype annotations.
+ 
+ how to exclude tomcate server in spring boot?
+ you can use below statements in pom.xml file
+ <dependency>  
+<groupId>org.springframework.boot</groupId>  
+<artifactId>spring-boot-starter-web</artifactId>  
+<exclusions>  
+<exclusion>  
+<groupId>org.springframework.boot</groupId>  
+<artifactId>spring-boot-starter-tomcat</artifactId>  
+</exclusion>  
+</exclusions>  
+</dependency>  
+<dependency>  
+<groupId>org.springframework.boot</groupId>  
+<artifactId>spring-boot-starter-jetty</artifactId>  
+</dependency>  
+
+how to disable auto restart of tomcate server in spring boot?
+spring.devtools.restart.enabled = false;
+
+
+how to disable LiveRelod Spring Boot?
+spring.devtools.livereload.enabled = false;
+spring.devtools.restart.exclude=public/**, static/**, templates/**  
+
+ 
+ 
+what is difference between @autowired vs @inject annotation?
+@inject: Part of the Java Dependency Injection (JSR-330) standard
+@Autowired is specific to the Spring framework.
+@Autowired provides a required attribute to mark dependencies as optional.
+@Inject does not have a built-in required attribute; optional dependencies are typically handled in other ways.
+@Autowired works with Spring’s @Primary to handle multiple beans
+@Inject typically uses @Named or custom qualifiers for resolving multiple beans.
+
+what is bean life cycle in spring boot and its methods?
+by implementing below interfaces 
+InitializingBean
+DisposableBean
+public void destroy(){
+}
+public void afterpropertySet(){
+}
+
+@PostConstruct
+@PreDestroy
+
+n finally we set using xml based by mentioning init-method n destroy method
+<bean name="book" class="com.dev.spring.bean.lifecycle.Book"
+                  init-method="initMethod" destroy-method="destroyMethod">
+                  
+what is beanFactory n applicationContext in spring boot?
+beanfactory n applicationcontext are two types of IOC containers in spring framework
+BeanFactory is basic IOC container, 	that provides basic features such as bean instantiation n dependency injection.
+ApplicationContext is more advanced IoC Container
+Spring provides two types of Inversion of Control (IoC) containers: BeanFactory and ApplicationContext.
+ApplicationContext provides advanced features
+Internationalization (i18n)
+Event publishing
+BeanFactory cannot publish events to beans that are registered as listeners. 
+ApplicationContext can do this. For example, you can publish a ContextStartedEvent
+ when the context is started and a ContextStoppedEvent when the context is stopped.
+ Implementations
+ There are many different implementations of the BeanFactory interface.
+  One popular implementation is XMLBeanFactory. There are also many different implementations 
+  of the ApplicationContext interface. One popular implementation is ClassPathXmlApplicationContext. 
+  On Java web applications, you use WebApplicationContext, which extends the ApplicationContext
+   interface and adds the getServletContext() method.
+   
+Filter vs. Interceptor in Spring Boot?
+Filter
+It helps in implementing various functionalities such as authentication, logging, debugging, et
+
+It is a Java class which is executed by the servlet container for
+ each incoming HTTP request and for each HTTP response.
+ Requests always first pass through Filter instances, before reaching a Servlet.
+ Filter operates on Servlet level.
+ methods
+ init(FilterConfig config)
+ doFilter(HttpServletRequest request, HttpServletResponse reponse, FilterChain chain)
+ destroy()
+ 
+ AbstractRequestLoggingFilter: to perform logging operations before and after a request is processed.
+ CharacterEncodingFilter: to specify a character encoding for requests.
+ CorsFilter: to handle CORS pre-flight requests and to update the response.
+ OncePerRequestFilter: to guarantee a single execution per request dispatch, on any servlet container.
+ 
+ 
+ Interceptor
+ Interceptor operates on Controller level.
+ Spring Interceptors are similar to Servlet Filters. An interceptor just allows custom pre-processing with the option of prohibiting the execution of the handler itself, 
+ and custom post-processing, having access to Spring Context.
+preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) —
+This is used to perform operations before sending the request to the controller. This method should return true to return the response to the client.
+
+postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+ModelAndView modelAndView) —
+
+afterCompletion(HttpServletRequest request, HttpServletResponse response,
+Object handler, Exception exception)
+Interceptors will only execute after Filters.
+
+Client -> Filter(doFilter) -> DispatcherServlet -> HandlerIntercepter(preHandle(request, response) -> Controller
+
+for full diagram
+
+https://javalaunchpad.com/understanding-the-difference-between-handler-interceptors-and-filters-in-spring-mvc/
+
+ https://www.geeksforgeeks.org/spring-mvc-servlet-filter-vs-handler-interceptor/
+
+how to set up security in spring boot?
+Spring Security supports various authentication mechanisms, such as in-memory, JDBC, LDAP, and OAuth2
+to configure authentication, create java class extends WebScurityConfigurerAdapter n override configure(AuthenticationManagerBuilder auth)
+To configure role-based authorization, override the configure(HttpSecurity http) method in your WebSecurityConfigurerAdapter
+
+how to secure RestFul APIs?
+To secure RESTful APIs, use the same configure(HttpSecurity http) method 
+but configure the authentication mechanism accordingly, such as using JWT or OAuth2
+Enable HTTPS by configuring an SSL certificate.
+Configure CORS(Cross-Origin Resource Sharing) and CSRF(Cross-Site Request Forgery) protection for cross-origin requests.
+Implement proper password hashing and storage using strong password encoders like BCryptPasswordEncoder.
+To secure a specific endpoint, you can use the `@Secured` annotation
+Example
+@GetMapping("/api/hello")
+    @Secured("ROLE_USER")
+    public String hello() {
+        return "Hello, authenticated user!";
+    }
+    
+    
+ As WebSecurityConfigurerAdapter has been deprecated from spring security 5.7.0 
+ https://javatechonline.com/how-to-implement-security-in-spring-boot-project/
+ 
+ 
+ What are the key components of Spring Boot Security?
+ The key components of  Spring Boot Security are  authentication providers,
+  user details services, security filters, access control rules, and login/logout features.
+Login and logout feature
+Authentication and Authorization
+Allow or block URL access for users
+Implementation of Single sign-on, LDAP, etc
+OAuth Implementation
+Provide role-based access etc
+spring-security filter is
+Authentication: 
+Authentication is asking the question to the user “Who are you?”
+In Spring Security we represent authentication as a given interface Authentication. 
+It represents the token for an authentication request or for a user.
+Authorization: 
+Authorization is the process to allow the authority to perform actions in the application.
+In a simple word, here Spring security will ask the user, “What you want?”. 
+The user will say “I want to perform some XYZ action!”. 
+Then Spring security will check “Is this user allow to do this?”. If yes then allow him to perform that particular action, otherwise, say no.
+Authenticated Principal:
+A principal is a person who is identified through the process of authentication. This means it is a current logged in users.
+It is an interface as AuthenticatedPrincipal in Spring security. 
+It has only one method getName() which returns the name of the authenticated Principal
+public interface AuthenticatedPrincipal {
+   String getName();
+}
+
+ Granted Authority:
+ In spring security these types of permission for specific users called Granted Authorities.
+ In spring security we represent it as a given interface.
+ public interface GrantedAuthority {
+   String getAuthority();
+}
+
+Roles:
+A role represents a group of authorities.
+In the above example, there is a problem. Providing the mapping of different users with different
+ authorities is difficult. So why not we club different authorities 
+in groups and give them some id. This ID called a role
+Example: 
+ADMIN Role: view_data + update_data + delete_data
+USER Role: view_data + update_data
+Filters:
+A filter is an object that is invoked at the pre-processing and post-processing of a request.
+
+
+UsernamePasswordAuthenticationFilter: which take credential information from the request and 
+generate the Authentication object with the credential
+
+Authentication Manager:The authentication manager manages the authentication configuration in spring security. 
+It authenticates the user and requests.
+In spring-security, authentication manager represent as an interface AuthenticationManager. 
+It has only one method, which authenticates the user.
+
+public interface AuthenticationManager {
+   Authentication authenticate(Authentication authentication);
+} 
+
+Authentication Manager Builder:
+Authentication Manager Builder is used to create the Authentication Manager.
+In spring security there is already a class WebSecurityConfigurerAdapter 
+To create the Authentication Manager, we don’t need to implement the AuthenticationManager 
+interface directly. For that, we are going to use the AuthenticationManagerBuilder class. 
+In this class we just have to set, what type of authentication we are going to do like in-memory, 
+JDBC or LDAP, etc. If it is an in-memory authentication then we should also mention the username, 
+password, and roles for each user.
+which has method configure() which take parameters as AuthenticationManagerBuilder.
+
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    @Override
+    public void configure(AuthenticationManagerBuilder  auth) throws    Exception {
+        auth.inMemoryAuthentication()
+        .withUser("admin")
+        .password("admin@password")
+        .roles("ADMIN");
+    }
+}
+
+Authentication Provider:
+Authentication Provider helps spring security to provide the user details by which it performs authentication
+For authentication, the user enters the username and password. 
+But to validate those credentials, someone needs to provide the actual credential 
+from DB or memory and compare it to authenticate the user.
+AuthenticationProvider is an interface.
+public interface AuthenticationProvider {
+    Authentication authenticate(Authentication authentication);
+    boolean supports(Class<?> authentication);
+}
+Spring security provides the different implementation of AuthenticationProvider . 
+For example: DaoAuthenticationProvider, LdapAuthenticationProvider etc.
+ We can also write our own custom authentication provider using the 
+ implementing AuthenticationProvider interface.
+ 
+Password Encoder:
+In spring-security, PasswordEncoder is an interface that provides the
+ powerful and latest way to encode the password and match with a raw password.
+ public interface PasswordEncoder {
+ String encode(CharSequence rawPassword);
+ boolean matches(CharSequence rawPassword, String encodedPassword);
+}
+
+Spring security provides the different implementation of this PasswordEncoder interface. 
+For example, BCryptPasswordEncoder , SCryptPasswordEncoder, LdapShaPasswordEncoder, Md4PasswordEncoder etc
+
+
+https://medium.com/@er.rameshkatiyar/top-10-core-components-of-spring-security-52370be2c585
+
+
+How does security work internally in a Spring Boot Application ?
+Fundamentally,  spring security works on a concept called JAAS(Java  Authentication and Authorization Services). 
+In brief, it works on Filter (javax.servlet.Filter) concept. 
+We all know that we can use the Filters if we want to apply 
+some pre-processing logic before a servlet request. The same concept has been applied to 
+implement security features in  Spring boot projects as well. 
+DelegatingFilterProxy is a predefined class under package org. 
+springframework.web.filter provided by Spring Security module which acts as a filter here.
+
+As shown in the diagram below when a user sends a request to the  application, it passes 
+through a security filter before going to DispatcherServlet. If user validates the security 
+of this filter, then only the request will go to DispatcherServlet to serve the user’s purpose.
+
+SpringSecurity1
+
+How many types of authorization are used in Spring Boot Application?
+There are four mostly used types of authorization implementation available. They are :
+
+1) permitAll
+permitAll represents that No need of any authorization to access current page.
+2) authenticated
+It represents that Login(username/password) is Required & no authorization(role based access) is required.
+3) hasAuthority
+hasAuthority represents that user should have both  authentication and role based authorization access.
+4) hasAnyAuthority
+It represents that user should have  authentication and multiple role based authorization access. 
+It’s like Manager & HR both roles have access to a particular page
+
+what are spring security key components?
+Spring makes use of DelegatingFilterProxy for implementing security mechanisms. 
+1 Authentication Filter, AuthenticationManager, Authentication Provider, UserDetails
+
+ What's the difference between @Secured and @PreAuthorize in spring security?
+ if you wanted to do something like access the method only if the user has Role1
+  and Role2 the you would have to use @PreAuthorize @PreAuthorize("hasRole('ROLE_role1') and hasRole('ROLE_role2')") Using @Secured({"role1", "role2"}) is treated as an OR
+ 
+@PreAuthorize supports Spring Expression Language (SpEL), allowing for more complex and flexible security expressions.
+Applied at the method level in a service or controller class to ensure the user has the necessary permissions before the method is invoked.
+@PreAuthorize is part of the Spring Security pre-post annotations
+
+@Secured is more straightforward and only supports specifying roles directly.
+@Secured is part of the core Spring Security annotations
+
+@PreAuthorize requires enabling method security using @EnableGlobalMethodSecurity(prePostEnabled = true)
+@Secured requires enabling method security using @EnableGlobalMethodSecurity(securedEnabled = true)
+
+How to Enable and Disable CSRF in Spring Security?
+Cross-Site Request Forgery (CSRF) is an attack. End users performs unwanted 
+actions on a web application in which they are currently authenticated, and 
+it is caused due to this web attack. It is one of the most severe vulnerabilities in Spring Security. If we want to enable or want to disable the CSRF protection in Spring Security, we have to configure it in the application’s security configuration class.
+
+@Configuration
+public class GFG extends WebSecurityConfigurerAdapter {
+    --------Your Code-- -------@Value(
+        "${security.enable-csrf}")
+          private boolean csrfEnabled;
+    --------Your Code-- -------
+
+          @Override protected void
+          configure(HttpSecurity http) throws Exception
+    {
+        super.configure(http);
+        if (!csrfEnabled) {
+            http.csrf().disable();
+        }
+    }
+}
+Note: In Spring Security, by default the CSRF (Cross-Site Request Forgery) protection is enabled.
+How to Deny Access to All URLs in Spring Security?
+To Deny Access to All URLs in Spring Security we can use denyAll() Spring Security Expressions.
+
+Spring’s expression-based access Control has an expression called denyAll which evaluation is always false.
+
+What is SecurityContext and SecurityContextHolder in Spring Security?
+The SecurityContext is used to store the details of currently authenticated user, also known as principal
+so if you have to get user name or other user details, you need to get Security Context.
+
+Now, SecurityContextHolder is a class that uses ThreadLocal object to store the SecurityContext.
+
+what is Jwt Authentication?
+JSON Web Token is an open source RFC 759 standard, it is statless authentication, state is never saved
+in server memory.
+A JWT token consists of three parts header.payload.signature.
+Header consists of two parts
+{
+ "alg": "HS256",
+  "typ": "JWT"
+}
+
+
+payload: payload contains claims, primarly there are 3 types of claims reserved, public and private.
+
+Reserved claims are predefined claims such as is(issure), exp(expiration time)sub(Subject), aud(Audience)
+
+Signature: 
+Signature ensures that the token is not changed on the way, for example if you want to use HMAC SHA256
+algorithm, the Signature will be created int the following way.
+HMACSHA256(
+  base64UrlEncode(header) + "." +
+  base64UrlEncode(payload),
+  secret)
+ 
+
+what is AuthenticationManager, Authentication, UsernamePasswordAuthenticationToken?
+AuthenticationManager:
+It is a core interface that spring security uses for the authentication process. 
+It has only one method authenticate which when implemented in a class that implements 
+an Authentication Manager has all the logic for authenticating a user request.
+The authenticate method takes an “Authentication” object as its parameter and 
+returns an “Authentication” object on successful authentication of the user or else we can have an exception thrown indicating that the user is not authenticated.
+
+Authentication:
+It is a core interface that represents security information(Principal, Credentials, Authority list, etc.) in a spring security specific manner.
+It is used by the entire framework whenever there is a need to get authentication details of a particular request.
+Frequently used implementation of the “Authentication” 
+interface is “UsernamePasswordAuthenticationToken”. 
+It is not a direct subclass of “Authentication” but it is a child of an abstract class that implements an “Authentication” interface.
+
+https://medium.com/@er.rameshkatiyar/top-10-core-components-of-spring-security-52370be2c585
+
+https://medium.com/@mbuzwa/spring-security-with-jwt-for-rest-apis-e7c674b61e9
+
+https://medium.com/spring-framework/spring-security-authentication-process-explained-in-detailed-5bc0a424a746
+
+
+
+what is @EnableGlobalMethodSecurity vs @EnableWebSecurity?
+
+@EnableWebSecurity
+With Spring Security on the classpath, Spring Boot Security Auto-Configuration‘s WebSecurityEnablerConfiguration activates @EnableWebSecurity for us
+Default security activates both HTTP security filters and the security filter chain and applies basic authentication to our endpoints.
+
+
+@EnableGlobalMethodSecurity
+To enable annotation based security, we need to add the @EnableGlobalMethodSecurity annotation on any @Configuration class.This is how our configuration class will look like:
+so if you want to use this functionality, you first need to enable it. Hence, in order to get access of annotations such as @PreAuthorize, @PostAuthorize, @Secured, @RolesAllowed
+@EnableGlobalMethodSecurity(
+        prePostEnabled = true,  // Enables @PreAuthorize and @PostAuthorize
+        securedEnabled = true, // Enables @Secured 
+        jsr250Enabled = true    // Enables @RolesAllowed (Ensures JSR-250 annotations are enabled)
+ )
+ 
+  If you are using Spring 3.0.0 or a later version,
+   you will get @EnableGlobalMethodSecurity as deprecated.
+    You need to use @EnableMethodSecurity in place of @EnableGlobalMethodSecurity.
+  
+  
+what is difference between @secured vs @RolesAllowed?
+@Secured: Part of Spring Security
+@Secured: Requires enabling method security with @EnableGlobalMethodSecurity(securedEnabled = true)
+We use @Secured on a method to specify a list of roles who can access the method
+@Secured("ROLE_MANAGER","ROLE_ADMIN")
+public String getUserDetails() {
+           SecurityContext securityContext = SecurityContextHolder.getContext();
+           return securityContext.getAuthentication().getName();
+}
+However, @Secured annotation doesn’t support SpEL
+
+We use @RolesAllowed in a similar way as @Secured.
+ The @RolesAllowed annotation is the JSR-250’s equivalent annotation of the @Secured annotation
+ @RolesAllowed: Part of the Java EE (Enterprise Edition) security annotations and can be used in Java EE and Spring Security applications.
+Configuration for @Secured vs @RolesAllowed
+how you would configure your Spring application to use both @Secured and @RolesAllowed annotations.
+@Configuration
+@EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true)
+public class MethodSecurityConfig {
+    // configuration methods
+}
+
+
+what is difference between @PreAuthorize vs @postAuthrorize?
+The @PreAuthorize and @PostAuthorize annotations in Spring Security are used to apply 
+security constraints on methods, but they are used at different points in 
+the method execution lifecycle and serve different purposes.
+@PreAuthorize
+Used to apply security constraints before a method is invoked
+Uses Spring Expression Language (SpEL) to define the security condition.
+
+@PreAuthorize: Used for checking permissions based on method arguments or user roles before performing the method logic.
+@PostAuthorize: Used for checking permissions based on the method's return value, such as ensuring the user has access to the data being returned.
+ 
+https://javatechonline.com/spring-security-annotations/
+https://www.javaguides.net/p/spring-security-tutorial.html
+
+Spring framework 6. features
+
+The most important change might be the jump from Java EE to Jakarta EE9, 
+where the package namespace changed from javax.* to jakarta.*.
+ As a result, we need to adjust all imports in our code whenever we use classes from Java EE directly.
+For example, when we access the HttpServletRequest object within our Spring MVC Controller, we need to replace:
+
+import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
+
+https://www.geeksforgeeks.org/whats-new-in-spring-6-and-spring-boot-3/
+
+How do you handle exception management in Spring Boot?
+@ControllerAdvice for global exception handling.
+@ExceptionHandler for specific exception types within controllers.
+Customizing error responses with ResponseEntityExceptionHandler.
+
+
+what is difference between @secured @RollesAllowed?
+@RollesAllowed: it is java standard annotation(JSR250), it supports role-based security. 
+to enable the @RollesAllowed annotation, add the following line to spring-security.xml
+xml: <global-method-security jsr25-annotations="enabled">
+Spring boot: @EnableGlobalMethodSecurity(jsr25Enabled=true)
+@Secured: it is spring specific annotation, it secures methods implemented by beans((objects whose life-cycle is managed by the Spring IoC)
+XML: global-method-security secured-annotations="enabled"/> 
+Spring boot: @EnableGlobalMethodSecurity(securedEnabled=true) 
+https://www.javaguides.net/p/spring-security-tutorial.html
+
+what are the methods to get the Request object?
+there are 3 ways to get Request object.
+1.Getting the Request object through the request parameters;
+2.Getting the Request object through RequestContextHolder;
+ans: RequestContextHolder is holder class to expose 
+the web request in the form of a thread-bound RequestAttributes object.
+RequestContextHolder uses ThreadLocal and InheritableThreadLocal to store the value associated 
+with each thread separately. Based on the inheritable flag, the class uses one or another.
+Return the RequestAttributes currently bound to the thread
+
+3. Obtaining a Request object through automatic injection.
+
+What is Diligatingfilterproxy in Spring Security?
+DiligatingFilterProxy is a Servlet filter that intercepts all the incoming requests sent to an application.
+It allows bridging between the Servlet Container’s lifecycle and Spring’s ApplicationContext.
+The Servlet Container allows to registering Filters using its own standards.
+
+Why and How to use SpringBootServletInitializer?
+Spring Boot provides SpringBootServletInitializer that runs a Spring Application 
+from a war deployment. It binds Servlet, Filter and ServletContextInitializer beans from the spring application context to the server.
+
+org.springframework.boot.web.servlet.support.SpringBootServletInitializer 
+is an abstract class that implements the WebApplicationInitializer. 
+It provides a way to run a Spring Boot application from a traditional WAR deployment
+
+Note that a WebApplicationInitializer is only needed if 
+we build a war file and deploy it. We won’t need this if we prefer to run an embedded web server.
+
+A typical Spring web application initialization flow is as below:
+
+
+https://howtodoinjava.com/spring-boot/spring-boot-servletinitializer/
+
+what is Spring Boot ModelMapper ?
+ModelMapper is a Java library that simplifies the process of 
+mapping between different object models, such as Data Transfer Objects (DTOs) 
+and entities. It provides an easy-to-use API for performing object-to-object 
+mapping and can handle complex mappings with nested objects
+
+what is difference between spring vs Spring MVC vs spring Boot?
+The Spring Framework is an open-source framework for creating enterprise-level Java applications. 
+It provides comprehensive infrastructure support
+Features:
+Inversion of Control (IoC) Container:
+The IoC container is responsible for the creation, configuration, and management of application objects (beans). 
+It automates object management by injecting dependencies
+Aspect-Oriented Programming (AOP):AOP helps separate cross-cutting concerns like logging, transactions, and security from the main business logic.
+ This separation promotes code modularity and reusability.
+ Data Access / Integration: It also integrates seamlessly with popular Object-Relational Mapping (ORM) frameworks like Hibernate, JPA, and JDO. 
+ Transaction Management: Offers a consistent, programmatic, and declarative mechanism for transaction management, 
+ ensuring that data remains consistent and the system remains robust
+Security: Provides comprehensive security features such as authentication, authorization, and protection against common vulnerabilities in web applications and RESTFul web services.
+
+Messaging:
+Spring's messaging module helps with the development of messaging-based applications. 
+It provides support for both traditional messaging systems and newer ones like Apache Kafka
+
+Spring MVC
+Spring MVC is a module of the Spring Framework specifically designed for 
+developing web applications following the Model-View-Controller pattern. 
+Spring MVC module is used to build both web applications and RESTFul web services.
+
+Features:
+DispatcherServlet: Central servlet handling HTTP requests and delegating responsibilities.
+Web Models, Views, and Controllers: Clear separation of application's logic, data, and presentation layers. 
+Integration with View Technologies: Compatible with JSPs, Thymeleaf, FreeMarker, etc
+RESTful Web Services: Provides annotations to develop REST-based APIs. 
+
+Spring Boot
+Features:
+Auto Configuration: Automatically configures your application based on the included libraries.
+Standalone: Enables building production-ready standalone applications with embedded servers like Tomcat. 
+Production Ready: Provides built-in health checks and metrics via Spring Boot Actuator
+Opinionated Defaults:Provides out-of-the-box default configurations to speed up development
+Environment-specific Configuration:Easily manages application settings for different environments.
+Embedded Servers: No need for external server setup, comes with embedded Tomcat, Jetty, or Undertow.
+Spring Boot Initializr: Web-based tool to bootstrap new Spring Boot projects.
+Microservices Ready: Easily integrable with Spring Cloud, making microservices architecture development a breeze
+
+Key Spring Boot features
+Spring Boot starters
+Spring Boot autoconfiguration
+Elegant configuration management
+Spring Boot Actuator
+Easy-to-use embedded servlet container support
+
+https://www.javaguides.net/p/spring-boot-tutorial.html#google_vignette
+
+what is Spring boot maven plug in?
+It collects all the jars on the classpath and builds a single, runnable "über-jar",
+ which makes it more convenient to execute and transport your service.
+It searches for the public static void main() method to flag as a runnable class
+It provides a built-in dependency resolver that sets the version number to match Spring Boot dependencies.
+Key Features of the Spring Boot Maven Plugin:
+Packaging Spring Boot Applications:
+The plugin allows you to package your Spring Boot application as an executable JAR or WAR file. 
+These files include all the necessary dependencies, libraries, and resources to run the application independently.
+The JAR file includes an embedded web server (like Tomcat or Jetty), 
+which allows the application to be run directly without needing an external web server
+
+Customizable Build Configurations:
+The plugin allows for customization of the build process. 
+For example, you can exclude certain files, configure the main class, or add custom configuration files.
+
+Building Docker Images:
+The plugin can be used to build Docker images directly from your Spring Boot application 
+using the spring-boot:build-image goal. This is helpful for containerizing applications.
+mvn spring-boot:build-image
+
+Spring Boot How to Change Port and Context Path?
+Using application.properties File
+
+server.port =8080
+server.servlet.context-path =DemoContextPath
+
+Transitioning from Zuul to Spring Cloud Gateway
+zuul is outdated, spring boot 3 not supporting it.
+we can use spring cloud or AWS API Gateway
+
+what is Service Discovery ?
+spring-cloud-starter-netflix-eureka-server
+Service Discovery is the automatic detection of devices 
+and services offered by these devices on a computer network. 
+In a microservices architecture, where there might be dozens or even hundreds of services, 
+it is essential to know what services are available and how to communicate with them. 
+Service Discovery solves this problem by maintaining a registry of available services,
+ their instances, and their locations
+
+https://medium.com/@mohamed.enn/service-discovery-in-a-spring-microservices-9c2a938289c7
+
+what is spring cloud?
+Spring Cloud is a set of tools and frameworks designed to help developers 
+build distributed systems and microservices-based architectures in the cloud. 
+It extends the capabilities of the Spring Framework to address the common challenges 
+associated with building, deploying, and managing distributed systems.
+
+Spring Cloud provides solutions for service discovery, configuration management, 
+load balancing, circuit breaking, distributed tracing, and more, all of which are 
+critical in cloud-native applications.
+Key Components of Spring Cloud:
+ Spring Cloud Config:
+   Purpose: Centralized configuration management for distributed systems.
+ Spring Cloud Netflix:
+    Eureka: Service discovery for registering and discovering services in a distributed system.
+	Ribbon: Client-side load balancing for distributing requests across instances of a service.
+	Hystrix: Circuit breaker pattern implementation to handle service failures gracefully
+ 
+
+Disabling the Web Server?
+spring.main.web-application-type=none
+
+how to Discover the HTTP Port at Runtime?
+We can access the port the server is running on from log output 
+or from the ServletWebServerApplicationContext through its WebServe
+
+how to Configure SSL(secure socket layers) [HTTPS]?
+set the ssl properties in .property file or .yml file
+
+
+what is SpringApplication class in Spring Boot Application?
+The SpringApplication class provides a convenient way 
+to bootstrap a Spring application that is started from a main() method
+By default SpringApplication class will perform the following steps to bootstrap your application
+1. Create an appropriate ApplicationContext instance
+2. Register a CommandLinePropertySource to expose command line arguments as Spring properties
+3.Refresh the application context, loading all singleton beans
+4.Trigger any CommandLineRunner beans In most circumstances the static run(Class, String[]) method can be called directly from your main method to bootstrap your application:
+
+what is @primary annotation? 
+We use @Primary annotation to give a higher preference for a bean when there are multiple beans of the same type.
+
+what is use of bootstrap.properties?
+It's only used/needed if you're using Spring Cloud and your application's configuration 
+is stored on a remote configuration server (e.g. Spring Cloud Config Server).
+
+how to validate request parameters in Spring boot?
+use hibernate validation dependency in pom.xml file
+
+https://medium.com/@himani.prasad016/validations-in-spring-boot-e9948aa6286b
+
+What is Lombok?
+Lombok is a compile-time annotation processor. Instead of you writing repetitive code or relying on your IDE to generate it, 
+Lombok provides annotations to instruct the compiler to generate the code on your behalf
+
+Spring Boot, by default, includes the Simple Logging Facade for Java (SLF4J) coupled with Logback
+SLF4J acts as an abstraction layer, meaning you can plug in your preferred logging framework at deployment time,
+
+@Slf4j: This is the most commonly used logging annotation for Spring Boot applications
+
+Using @Log vs. @Slf4j
+
+@Slf4j:
+The acronym SLF4J stands for Simple Logging Facade for Java
+ Given that Spring Boot defaults to SLF4J with Logback, @Slf4j is the annotation of choice for most Spring Boot projects.
+ 
+
+@Log:
+This annotation takes its name directly from the java.util.logging package, often abbreviated as JUL.
+
+@Log is tailored for the java.util.logging framework, which is Java's built-in logging mechanism
+
+Log4j 1.2 - Welcome to Apache log4j, a logging library for Java.
+
+what are authentication filters?
+UsernamePasswordAuthenticationFilter
+DefaultLoginPageGeneratingFilter 
+and ExceptionTranslationFilter
+
+UsernamePasswordAuthenticationFilter
+This filter checks if the login url contains ‘/login’ and is a POST request or not. As this is a GET request with url ‘/hello’ so this filter does nothing.
+DefaultLoginPageGeneratingFilter — This filter checks if for the incoming request any authentication 
+is done or not. Also it checks if the url is /login, /logout or /login?error. If it is niether of these it does nothing. In our case the url is /hello so it does nothing.
+AuthorizationFilter — This is the last filter in the filter chain. 
+As no other filter has completed the authentication process, so this Filter throws an AccessDeniedException
+ExceptionTranslationFilter — This filter catches the AccessDeniedException. 
+It then forces the application to redirect the browser to call the /login request.
+
+ExceptionTranslationFilter — This filter catches the AccessDeniedException. It then forces the application to redirect the browser to call the /login request.
+AuthenticationProvider — The AuthenicationProvider is an interface with a single authenticate method.
+UserDetailsService — The UserDetailsService is an interface having a single method named loadUserByUsername
+
+Migration from Spring boot 2.6.8 to Spring boot 3.1.5 below features has been deprecated
+
+websecurityconfigureadapter
+EnableGlobalMethodSecurity
+antMatcher() and csrf()
+authroizeRequest()
+
+websecurityconfigureadapter:
+WebSecurityConfigureAdapter has been deprecated, below is new approach
+@Configuration
+public class SecurityConfiguration {
+         
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+     
+    }
+     
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+         
+    }
+         
+
+EnableGlobalMethodSecurity
+
+@EnableGlobalMethodSecurit has been @EnableGlobalMethodSecurity enables you to 
+implement global method security for your Spring application, 
+enabling you to enforce security at the method level. However, 
+as of Spring 6.0, both @EnableGlobalMethodSecurity and <global-method-security/> 
+have been deprecated, and new approache
+
+Previously, we configure EnableGlobalMethodSecurity like this:
+@Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        // Configure authentication manager
+    }
+
+    @Override
+    protected AccessDecisionManager accessDecisionManager() {
+        // Customize access decision manager
+    }
+}
+
+Now, You can activate it in your application by annotating 
+any @Configuration class with @EnableMethodSecurity or 
+adding <method-security> to any XML configuration file
+
+Then, you are immediately able to annotate any Spring-managed 
+class or method with @PreAuthorize, @PostAuthorize, @PreFilter,
+ and @PostFilter to authorize method invocations, including the input parameters and return values.
+ 
+@Configuration
+@EnableMethodSecurity
+class MethodSecurityConfig {
+ @Bean
+ @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+ Advisor postAuthorize() {
+  return AuthorizationManagerBeforeMethodInterceptor.postAuthorize();
+ }
+}
+
+AntMatcher(), authorizeRequests() and csrf():
+
+In Spring Security 6.0, several configuration methods for securing requests, 
+such as antMatchers(), mvcMatchers(), and regexMatchers(), have been removed 
+from the API. Instead, an overloaded method requestMatchers() has been introduced 
+to provide a uniform means for securing requests.
+ the authorizeRequests() method has been deprecated and should no longer be used.
+  It is recommended to use authorizeHttpRequests() as a replacement.
+  
+  The deprecated annotation @EnableGlobalMethodSecurity has been replaced with
+   @EnableMethodSecurity. With @EnableMethodSecurity, 
+   the property prePostEnabled is set to true by default, 
+   removing the need to explicitly specify prePostEnabled = true.
+The usage of csrf() has been deprecated since version 6.1 and is marked for removal  
+
+https://howtodoinjava.com/spring-security/configurations-without-websecurityconfigureradapter/
+
+Note:Spring Security filters are registered with the lowest order and are the first filters invoked. 
+For some use cases, if you want to put your custom filter in front of them, you will need to add padding to their order. 
+This can be done with the following configuration
+
+spring.security.filter.order=10
+
+What are Actuator End Points?
+
+Actuator endpoints allow you to monitor and interact with your application. 
+Spring Boot includes a number of built-in endpoints and you can also add your own. 
+For example the health endpoint provides basic application health information.
+
+autoconfig: Displays an auto-configuration report showing all 
+auto-configuration candidates and the reason why they ‘were’ or ‘were not’ applied. 
+
+beans: Displays a complete list of all the Spring Beans in your application.
+configprops: Displays a collated list of all @ConfigurationProperties.
+
+dump: Performs a thread dump.
+env: Exposes properties from Spring’s ConfigurableEnvironment.
+
+health: Shows application health information (a simple ‘status’ when accessed over an unauthenticated connection or full message details when authenticated).
+
+info: Displays arbitrary application info.
+
+metrics:  Shows ‘metrics’ information for the current application.
+
+mappings: Displays a collated list of all @RequestMapping paths.
+
+shutdown:  Allows the application to be gracefully shutdown (not enabled by default).
+
+trace: Displays trace information (by default the last few HTTP requests).
+
+what are restTemplate methods?
+RestTemplate is a synchronization. 
+getForObject: The getForObject() method returns the response body as an object
+getForEntity: while the getForEntity() method returns the entire response
+
+postForObject():  Make a POST request and return the response body as a string
+postForEntity(): Make a POST request and return the entire response
+
+When making requests with RestTemplate, it’s important to handle the responses properly. 
+One way to do this is to use the exchange() method, which allows you to specify the HTTP method.
+
+RestTemplate Exceptions:
+RestTemplate provides several exception classes for handling specific errors, 
+such as HttpClientErrorException and HttpServerErrorException.
+
+You can use these exception classes to handle specific error codes, like 404 Not Found or 500 Internal Server Error.
+
+Pooling for Connections:
+When making multiple HTTP requests in a short period of time, it is important to use connection pooling 
+to avoid creating a new connection for each request
+
+You can use the Apache HttpClient library to enable connection pooling for RestTemplate. 
+To use HttpClient with RestTemplate, you can create an instance of HttpClient and pass it to the RestTemplate constructor.
+
+CloseableHttpClient httpClient = HttpClients.custom()
+                .setConnectionManager(poolingConnectionManager)
+                .build();
+
+RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory(httpClient));
+
+
+Configure Timeout:
+When using RestTemplate to make HTTP requests, you can configure the timeout 
+for requests to ensure that your application does not wait indefinitely for a response
+
+There are two types of timeout that you can configure:
+
+Connect timeout: The amount of time the client should wait to establish a connection with the server.
+Read timeout: The amount of time the client should wait to receive a response from the server.
+
+https://medium.com/hprog99/a-guide-to-the-resttemplate-in-spring-483aee112ae9
+
+
+what is Spring boot starter parent?
+
+In Maven, a project object model (POM) file — pom.xml – is used for project management, 
+containing information about the project and configuration details used by Maven to build the project. 
+A "parent" POM in Maven is the POM from which all other POMs inherit.
+
+The Spring Boot Starter Parent is essentially a parent project that offers dependency and 
+plugin management for applications built with Spring Boot.
+
+The "spring-boot-starter-parent" is a special starter that provides useful Maven defaults i.e it adds all the required jars and other things automatically.
+It also provides a dependency-management section so that you can omit version tags for dependencies you are using in pom.xml.
+
+1. Default configurations
+Spring Boot Starter Parent provides sensible defaults, which reduce the need for explicit configurations. 
+It automatically manages configurations like resource filtering and the encoding.
+
+2. Dependency Management
+Dependency management is a significant feature. With the parent starter, 
+you don’t need to specify versions for any of the dependencies in the pom.xml. 
+It manages versions via the dependencyManagement section.
+For example, you only need to declare dependencies like this:
+
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+</dependencies>
+
+No version number is needed because it’s controlled by the Spring Boot Starter Parent.
+
+3. Plugin Management:
+It also manages Maven plugins. This means that, similar to dependency management, 
+you won’t need to specify plugin versions in your pom.xml when using the standard Spring Boot plugins.
+
+what is Spring Boot Caching?
+
+In Spring, the cache abstraction is a mechanism that allows consistent use of various caching methods with minimal impact on the code.
+Cache is a part of temporary memory (RAM). It lies between the application and the persistent database.
+It stores the recently used data. This helps to reduces the number of database hits as much as possible.
+
+Cache Abstraction
+
+The cache abstraction mechanism applies to Java methods. 
+The main objective of using cache abstraction is to reduce the number of executions based 
+on the information present in the cache. It applies to expensive methods such as CPU or IO bound.
+
+What data should be cached?
+The data that do not change frequently.
+The frequently used read query in which results does not change in each call, at least for a period.
+
+Types of Caching
+There are four types of caching are as follows:
+In-memory Caching
+Database Caching
+Web server Caching
+CDN Caching
+
+In-memory Caching
+In-memory caching increases the performance of the application. 
+It is the area that is frequently used. Memcached and Redis are examples of in-memory caching. 
+It stores key-value between application and database. Redis is an in-memory, distributed, 
+and advanced caching tool that allows backup and restore facility. We can manage cache in 
+distributed clusters, also.
+Memcached is a simple in-memory cache while Redis is advanced
+
+Database Caching
+Database caching includes cache in database. It improves the performance by distributing a query workload.
+Hibernate first level cache is an example of database caching.
+
+Web Server Caching
+Web server caching is a mechanism that stores data for reuse
+It is cached for the first time when a user visits the page. If the user requests the same next time, the cache serves a copy of the page.
+
+CDN Caching
+The CDN stands for Content Delivery Network. It is a component used in modern web application.
+It improves delivery of the content by replicating common requested files such as Html Pages, images, videos, etc. across distributed set of caching servers.
+
+@EnableCaching
+It is a class level annotation. It is used to enable caching in spring boot application. By default it setup a CacheManager and 
+creates in-memory cache using one concurrent HashMap.
+
+If you are using the default CacheManager and you do not want to customize it 
+then there is no need to create separate class to apply @EnableCaching.
+
+@Cacheable
+It is a method level annotation. It is used in the method whose response is to be cached. 
+The Spring boot manages the request and response of the method to the cache that is specified in the annotation attribute.
+@Cacheable(“employees”)
+public Employee findById(int id) {
+  // some code
+}
+
+1. CacheNames / Value :
+The cacheNames is used to specify the name of the cache while value specifies the alias for the cacheNames.
+
+
+@Cacheable(value=”employees”)
+public Employee findById(int id) {
+  // some code
+}
+@Cacheable(cachNames=”employees”)
+public Employee findById(int id) {
+  // some code
+}
+
+
+2. key :
+This is the key with which object will be cached. It uniquely identifies each entry in the cache. 
+If we do not specify the key then Spring uses the default mechanism to create the key.
+
+@Cacheable(value=”employees”, key="#id")
+public Employee findById(int id) {
+  // some code
+}
+
+3.keyGenerator :
+It is used to define your own key generation mechanism. We need to create custom key generator class.
+@Cacheable(value=”employees”, keyGenerator=”customKeyGenerator”)
+public Employee findById(int id) {
+  // some code
+}
+
+
+4. cacheManager :
+It specifies the name of cache manager. It is used define your own cache manager and 
+do not want to use spring’s default cache manager.
+
+@Cacheable(value=”employees”, cacheManager=”customCacheManager”)
+public Employee findByName(String name) {
+  // some code
+}
+
+5. condition :
+We can apply a condition in the attribute by using the condition attribute. We can call it as conditional caching.
+@Cacheable(value=”employees”, condition="#name.length < 20")
+public Employee findByName(String name) {
+  // some code
+}
+
+6. unless :
+It specifies the object to to cached if it matches certain condition. 
+SpEL provides a context variable #result which refers to the object that is fetched and we can apply condition on on its value.
+
+@Cacheable(value=”employees”, unless=”#result.length < 20”)
+public Employee findByName(String name) {
+  // some code
+}
+
+@CachePut
+It is a method level annotation. It is used to update the cache before invoking the method. By doing this, the result is put in the cache and the method is executed. It has same attributes of @Cacheable annotation.
+@CachePut(value=”employee”)
+public Employee updateEmployee(Employee employee) {
+  // some code
+}
+
+Can we use @CachePut and @Cacheable into same method ?
+
+There is difference between @Cacheable and @CachePut is that @Cacheable annotation skips 
+the method execution while the @CachePut annotation runs the method and put its result in the cache.
+
+If we use these annotations together then the application shows the unexpected behaviour. So two annotations cannot be used together.
+@CacheEvict
+It is a method level annotation. It is used to remove the data from the cache. 
+When the method is annotated with this annotation then the method is executed and the cache will be removed / evicted.
+
+@Caching
+It is allows multiple nested caching annotations on the same method. 
+It is used when we want to use multiple annotations of the same type.
+
+@CacheConfig
+It is a class level annotation. It is used to share common properties such as cache name, 
+cache manager to all methods annotated with cache annotations.
+
+@Service
+@CacheConfig(cacheNames=”employees”)
+public class EmployeeService {
+  @Cacheable
+  public Employee findById(int id) {
+    // some code
+  }
+}
+
+
+Spring Boot Cache Provider
+When we do not define a bean of type CacheManager or CacheResolver, the Spring Boot Framework tries to detect the following cache provider:
+1.Generic
+2.JCache
+3. EhCache
+4. Hazelcast
+5. Infinispan
+6. Couchbase
+7. Redis
+8. Caffeine
+9. Simple
+
+If the Spring Boot finds the more than one cache provider in the classpath, 
+in such cases, we must specify the cache provider explicitly in the application.properties file.
+
+spring.cache.ehcache.provider=net.sf.ehcache.CacheManager  
+spring.cache.ehcache.config=classpath:config/another-config.xml  
+
+We can set up a particular cache provider by using the property spring.cache.type. 
+It is used in a certain environment if we want to disable caching.
+The Spring Boot Framework automatically configures the CacheManager that can be further 
+customized by implementing the CacheManagerCustomizer interface.
+
+EhCache
+EhCache is an open-source, Java-based cache used to boost performance. 
+The current version of Ehcache is 3. It provides the implementation of the JSR-107 cache manager. We can use it directly.
+Features of EhCache
+It is fast, lightweight, Scalable, and Flexible.
+It allows us to perform Serializable and Object
+It offers cache eviction policies such as LRU, LFU, FIFO,
+It stores the cache in memory and disk (SSD).
+It depends on SLF4J for logging.
+It has a full implementation of JSR-107 and Jcache
+It supports distributed caching via JGroups or JMS and RMI.
+
+what is ResponseEntity Class?
+The ResponseEntity is a class which extends HttpEntity and HttpStatus class. 
+It is defined in org.springframework.http.RequestEntity
+It is used in RestTemplate and @Controller methods.
+It is used as parameter in getForEntity() and exchange() method.
+
+
+how to filter(show/hide request/response fields) in spring boot?
+
+Consider a scenario in which we do not want to show some class members in the response. 
+This process is called filtering. Jackson has two annotations that are used in filtering are: @JsonIgnore and @JsonIgnoreProperties.
+
+@JsonIgnore
+It is a member or method level annotation. It expects that the properties to be excluded 
+are marked one by one. If we want to eliminate a member from the process of serialization and
+ deserialization, we can annotate the actual property or its setter or getter.
+ 
+ @JsonIgnoreProperties
+ 
+ @JsonIgnoreProperties is a class-level annotation. It ignores the logical properties in 
+ JSON serialization and deserialization.
+ 
+ what is Versioning APIs n how many ways to version?
+ 
+ Consider a scenario in which we have a Web API that is up (status) and running.   
+ The users are consuming that API. Now we want to add more functionality in the Web 
+ API but want to keep the existing functionality unchanged. There may be few users who 
+ still want to use the old API while the other users want a new version of API with new or 
+ extended features. It is the scenario where Web API versioning comes into existence.
+ 
+ How to Version
+ URI Versioning: http://api.demo.com/v1
+ Versioning using Custom Request Header:Accept-version: v1 
+ Versioning using Accept Header: 
+ 
+ HTTP also defines the following standard status code:
+ 404: RESOURCE NOT FOUND
+ 200: SUCCESS
+ 201: CREATED
+ 401: UNAUTHORIZED
+ 500: SERVER ERROR
+ 
+ 
+ What is Service Discovery?
+In a microservices architecture, each microservice is a standalone application with 
+specific business functionality. Since these microservices need to communicate with 
+each other to function as a complete application, they need to know each other’s 
+network locations. Service Discovery comes into play here, maintaining a record 
+of these services’ locations, helping them find each other, and enabling communication.
+
+What is Spring Cloud Eureka?
+Spring Cloud Eureka, part of the Spring Cloud Netflix project, is a service registry 
+that allows microservices to register themselves and discover other services. 
+In essence, it acts like a phone directory for your microservices, providing a 
+mechanism for service-to-service discovery and registration.
+
+
+ What do you understand about client side vs server side load balancing?
+ Client side load balancing is when the client makes requests to a server and 
+ the server then decides which server to send the request to. Server side 
+ load balancing is when the server itself decides which server to send the request to.
+ 
+ Ribbon is client side load balancing
+ How many instances of Eureka should I run in production?
+ In a production environment, it is recommended to run at least 3 instances of Eureka Server.
+  This will provide for high availability and failover in the event that one of the servers goes down.
+
+What do you understand about self preservation in Eureka?
+Eureka’s self-preservation mode is a mechanism used by the server to 
+protect itself from network and instance failures. When self-preservation 
+is enabled, the server will avoid removing instances from the registry unless 
+it is absolutely certain they are unavailable. This helps to ensure that the registry 
+always has a healthy set of instances to serve requests.  
+
+what are spring boot annotations?
+
+@SpringBootAnnotation
+@componentscan
+@RestController
+@RequestMapping
+@GetMapping
+@puttmapping
+@deletemapping
+@postmapping
+@@PatchMapping
+@optionsmapping
+@transactions
+@autowired
+@early
+@lazily
+@configuration
+@EnableAutoconfiguration
+@Bean
+@EnableCaching
+@ConfigurationProperties
+@Component
+@CrossOrigin
+@PathVariable
+@RequestBody
+@valid
+@RequestParam
+@Service
+@Repository
+@controlAdvice
+@ExceptionHandler
+@ConditionalOnProperty: you can use the @ConditionalOnProperty annotation to enable or disable a particular bean based on the presence of a property. 
+@ConditionalOnProperty(name = "twitter-to-kafka-service.enable-mock-tweets", havingValue = "false", matchIfMissing = true)
+@ConditionalOnProperty(name = "twitter-to-kafka-service.enable-mock-tweets", havingValue = "true")
+In @ConditionalOnProperty, the attribute matchIfMissing = true means the condition should match if the property is not set and defaults to false.
+@PropertySource:Externalizes configuration to a property file. 
+Example: @PropertySource("classpath:app.properties")
+ResponseEntity: ResponseEntity is a generic class, allowing you to return various response types, 
+such as JSON, XML, plain text, or even custom objects, as the body of the response. This flexibility makes it easier to cater to different client requirements.
+ResponseEntity: 
+
+
+How does spring security works internally?
+Spring security is enabled by itself by just adding the spring security starter jar. 
+But, what happens internally and how does it make our application secure? To answer 
+this question, let us understand a few basic terms that are related to spring security.
+Principal: Currently logged in user.
+Authentication: Confirming truth of credentials.
+Authorisation: Defines access policy for the Principal.
+GrantedAuthority: Permission granted to the principal.
+AuthenticationManager: Controller in the authentication process. Authenticates user saved in memory via authenticate().
+AuthenticationProvider: Interface that maps to a data store that stores your data.
+Authentication Object: Object that is created upon authentication. It holds the login credentials. It is an internal spring security interface.
+UserDetails: Data object that contains the user credentials but also the role of that user.
+UserDetailsService: Collects the user credentials, authorities (roles) and build an UserDetails object.
+
+what is BeanDefinitionOverrideException and how to solve?
+
+Exa: The bean 'sampleBean', defined in class path resource [com/config/BeanTwo.class], 
+could not be registered. A bean with that name has already been defined in class path 
+resource [com/config/BeanOne.class] and overriding is disabled.
+
+Consider renaming one of the beans or enabling overriding by setting 
+spring.main.allow-bean-definition-overriding=true
+
+what are bean scopes in spring boot?
+
+Singleton: This is the default scope in Spring Boot. 
+A singleton bean is created only once in the container, 
+and the same instance is returned every time the bean is requested.
+
+Prototype: This scope creates a new instance of the bean every time it is requested.
+
+Request: This scope creates a new instance of the bean for every HTTP request.
+
+Session: This scope creates a new instance of the bean for every HTTP session.
+
+Global Session: This scope creates a new instance of the bean for every global HTTP session.
+
+What role does the @ConfigurationProperties annotation play in Spring Boot?
+The @ConfigurationProperties annotation is employed to link external configuration 
+properties to beans managed by Spring. When you annotate a bean class 
+with @ConfigurationProperties and define a prefix, you can associate properties with identical 
+names to the fields or setter methods of the bean.
+
+Difference Between ApplicationContext and WebApplicationContext in Spring MVC
+
+ApplicationContext is used to create standalone applications.
+ApplicationContext is the parent of the WebApplicationContext interface.
+ApplicationContext is a interface
+There is always a single ApplicationContext in an application.
+In the case of ApplicationContext, we have to create and destroy the container objects manually.
+ApplicationContext represents the Spring IoC Containers and it is the sub-interface of BeanFactory.
+ApplicationContext is used to inject all the middle-tier beans (Services, DAOs) which are instantiated using the “ContextLoaderListener” class configured in web.xml.
+
+WebApplicationContext is used to create web applications.
+WebApplicationContext is the child of the ApplicationContext interface.
+But in the case of WebApplicationContext, we don’t need to create and destroy the container object. The container object will be created automatically.
+There can be multiple WebApplicationContexts for each of the dispatcher servlets.
+WebApplicationContext in Spring is a web-aware ApplicationContext i.e it has Servlet Context information.
+WebApplicationContext is used to deal with the web-related components such as controllers and view resolvers, which is configured using “DispatcherServlet”.
+
+
+Question 1. What is the purpose of the @SpringBootApplication annotation in Spring Boot?
+How do you run a Spring Boot application?
+Through the Main Method:
+Spring Boot applications are Java applications that have a main method. 
+This is the standard entry point where the Java Virtual Machine (JVM) starts 
+execution of an application.
+In a Spring Boot application, the main method does something special: 
+it calls SpringApplication.run(). This method is responsible for bootstrapping 
+the Spring application context, which is the central hub of a Spring application. 
+It's where all the magic of dependency injection, configurations, and more happens.
+For Maven, use: mvn spring-boot:run
+
+Question 3. What is a Spring Boot Starter? Name one common starter.
+Question 4. How does Spring Boot achieve auto-configuration?
+Auto-configuration in Spring Boot is a mechanism that automatically configures your Spring application based on the jar dependencies you have added.
+Spring Boot looks at the libraries (jar files) in your classpath.
+For example, if it sees that you have added a web-related library like Spring MVC, it assumes you are building a web application and sets up the necessary configuration accordingly.
+Conditional Configuration:
+Spring Boot uses a series of @Conditional annotations to decide what configuration should be applied.
+For instance, @ConditionalOnClass, @ConditionalOnBean, @ConditionalOnProperty, and so on.
+ These annotations help Spring Boot decide whether a specific auto-configuration class should be applied or not.
+Default Configurations with Overriding Capability:
+For example, if Spring Boot auto-configures an embedded Tomcat server but you prefer a 
+different server or specific configurations, you can define your own @Bean for that, 
+and Spring Boot will back off from its default.
+Activating a Profile:
+spring.profiles.active=dev
+Or, when running the application:
+java -jar myapp.jar --spring.profiles.active=prod
+
+You can also define beans for specific profiles in your code using the @Profile annotation.
+Example:
+@Configuration
+@Profile("dev")
+public class DevDatabaseConfig {
+    // Configuration beans for development
+}
+
+@Configuration
+@Profile("prod")
+public class ProdDatabaseConfig {
+    // Configuration beans for production
+}
+Question 7. How can you create a custom banner in a Spring Boot application?
+Steps to Create a Custom Banner:
+Create a Banner File:
+ Make a text file containing the custom banner. This can be plain text or ASCII art.
+ You can use online ASCII art generators to create text-based graphics if you like.
+Place the Banner File:
+ Name the file banner.txt.
+ Place it in the src/main/resources directory of your Spring Boot application.
+ Starting the Application:
+When you start your Spring Boot application, it will automatically detect the banner.txt file and display its contents in the console.
+
+Customizing the Banner Programmatically:
+Example:
+ SpringApplication app = new SpringApplication(MyApplication.class);
+        app.setBanner(new Banner() {
+            @Override
+            public void printBanner(Environment environment, Class<?> sourceClass, PrintStream out) {
+                out.println("My Custom Banner");
+            }
+        });
+        ConfigurableApplicationContext context = app.run(args);
+        
+   
+Question 8. Explain the role of the spring-boot-starter-parent POM?
+Key Features of spring-boot-starter-parent
+
+1. Default Dependency Management: no version required for dependancies
+2. Default Plugin Configurations: it configures the java.version property to define the Java version for compilation
+3. Spring Boot Plugin Configuration:which is essential for packaging and running Spring Boot 
+applications. This plugin helps in creating executable JARs (Java Archive files) with embedded servers
+4. Resource Filtering: which can be useful for including properties files and other resources in your JARs
+5. Inheritance and Customization: 
+
+
+https://medium.com/@ashutoshshashi/10-basic-spring-boot-questions-every-developer-should-know-4fc8325e0c91
+
+https://medium.com/javarevisited/what-happens-internally-when-you-start-a-spring-boot-application-part1-a683a64c1be8
+
+what happens if we are write two main class in spring boot and how to solve it?
+
+
+@SpringBootApplication
+@EnableConfigServer
+public class Main {
+	
+	public static void main(String[] args) {
+		ConfigurableApplicationContext context=	SpringApplication.run(Main.class, args);
+		System.out.println(context instanceof AnnotationConfigServletWebServerApplicationContext );
+	}
+
+}
+
+
+@SpringBootApplication
+@EnableConfigServer
+public class DemoConfigApplication {
+
+	public static void main(String[] args) {
+		ConfigurableApplicationContext context=	SpringApplication.run(DemoConfigApplication.class, args);
+		System.out.println(context instanceof AnnotationConfigServletWebServerApplicationContext );
+	}
+
+}
+
+mvn spring-boot:run then it gives below error
+Execution default-cli of goal org.springframework.boot:spring-boot-maven-plugin:3.3.2:run failed: Unable to find a single main class from the following candidates [com.config.Main, com.config.DemoConfigApplication] 
+
+solve it by passing main class in java -cp command
+java -cp app.jar -Dloader.main=com.company.MyAppMain1 org.springframework.boot.loader.PropertiesLauncher
+
+or Set Main class in pom.xml file under plugin
+<configuration>    
+      				  <mainClass>com.config.Main</mainClass>
+      			</configuration>
+      			
+what is @Async annotation?
+The @Async annotation in Spring Boot is used to mark a method as asynchronous. 
+This means that the method will be executed in a separate thread, 
+and the calling thread will not be blocked waiting for the method to complete. 
+This can be useful for long-running tasks, as it allows the calling thread to continue 
+processing other requests while the asynchronous task is running.
+
+The @Async annotation can be used with any method that is declared in a Spring bean.
+Notes to use @Async annotation
+The method must be public.
+The method must not throw checked exceptions. If the method throws a checked exception, 
+the exception will be wrapped in a runtime exception and thrown to the calling thread.
+
+The method must return a value that implements the Future interface (basically CompletableFuture). 
+This allows the calling thread to get the result of the asynchronous task once it has been completed.
+Or the method must have no return type that is void.
+ The @EnableAsync annotation switches on Spring’s ability to run @Async methods in a background 
+ thread pool.
+ 
+Enable Asynchronous Capability of Spring:
+ We need to start by enabling asynchronous support in our Spring Boot application by 
+annotating our main application class (the one with public static void main) with @EnableAsync.
+ This annotation tells Spring to configure and manage asynchronous processing for the methods 
+ annotated with @Async.
+ Example:
+ @SpringBootApplication
+@EnableAsync
+public class MyApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(MyApplication.class, args);
+    }
+
+    @Bean
+    public Executor taskExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(1);
+        executor.setMaxPoolSize(1);
+        executor.setQueueCapacity(500);
+        executor.setThreadNamePrefix("GithubLookup-");
+        executor.initialize();
+        return executor;
+    }
+}
+
+Note: If we do not define an Executor bean, Spring creates a SimpleAsyncTaskExecutor and uses that.
+
+how to stop bean loading into container in spring boot?
+1.Using @Conditional Annotation
+ @Component
+@Conditional(MyCustomCondition.class)
+public class MyBean {
+    // Bean implementation
+}
+Where MyCustomCondition implements the Condition interface:
+ public class MyCustomCondition implements Condition {
+    @Override
+    public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+        return false; // Returning false prevents the bean from being loaded
+    }
+}
+
+
+2. Using @Profile Annotation
+The @Profile annotation allows beans to be loaded only for specific profiles. 
+If the active profile doesn't match, the bean won't be loaded.
+@Component
+@Profile("dev")
+public class MyBean {
+    // Bean implementation
+}
+If the "dev" profile is not active, the MyBean will not be loaded.
+ Excluding Beans with @ComponentScan
+You can exclude specific beans from being scanned and loaded using the excludeFilters attribute in 
+the @ComponentScan annotation. 
+
+@ComponentScan(
+    basePackages = "com.example",
+    excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = MyBean.class)
+)
+public class AppConfig {
+    // Configuration
+}
+
+This will prevent MyBean from being scanned and loaded into the Spring context.
+
+4. Programmatically Removing Beans
+
+@Configuration
+public class MyConfig implements BeanFactoryPostProcessor {
+    @Override
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+        beanFactory.removeBeanDefinition("myBeanName");
+    }
+}
+
+6. Not Annotating with @Component, @Service, or @Bean
+The simplest way to prevent a bean from loading is to not annotate the class with @Component,
+ @Service, @Repository, or similar annotations, and not define it as a @Bean in a configuration class.
+
+
+7. Excluding Auto-Configuration Classes
+If a bean is loaded via auto-configuration, you can exclude the entire auto-configuration 
+class using the @SpringBootApplication annotation.
+
+If a bean is loaded via auto-configuration, you can exclude the entire auto-configuration class using the @SpringBootApplication annotation.
+
+@SpringBootApplication(exclude = MyAutoConfiguration.class)
+public class MyApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(MyApplication.class, args);
+    }
+}
+
+
+what is SSL?
+
+Key Aspects of SSL:
+Encryption: SSL uses encryption algorithms to scramble data in transit, making it unreadable 
+to anyone who might intercept it
+This protects sensitive information such as credit card numbers, login credentials, 
+and other private data
+Authentication: SSL ensures that the data is being sent to the correct server and 
+not to a malicious third party. This is achieved through the use of SSL certificates, 
+which verify the identity of the server.
+Data Integrity: SSL ensures that the data sent and received has not been tampered 
+with during transmission. If the data is altered, the connection is dropped, and the data is not accepted. 
+ 
+
+How SSL Works:
+Handshake: The SSL connection begins with a handshake between the server and the client. 
+During this handshake, the server presents its SSL certificate to the client, and the 
+client verifies that the certificate is valid and trusted.
+
+Session Keys: Once the certificate is verified, both the server and the client 
+agree on a session key. This session key is a temporary, symmetric key used to 
+encrypt and decrypt the data during the session.
+Secure Communication: After the session key is established, all data exchanged 
+between the client and server is encrypted using this key, ensuring a secure communication channel. 
+ 
+ types of SSL?
+1. Domain Validated (DV) SSL: Verifies ownership of the domain.
+2. Organization Validated (OV) SSL: Verifies the domain ownership and the organization’s legitimacy.
+3. Extended Validation (EV) SSL: Provides the highest level of validation, with a rigorous vetting process.
+
+ Evolution to TLS:
+ SSL has been succeeded by TLS (Transport Layer Security), which is an updated, 
+ more secure version of the protocol. Despite this, the term "SSL" is still commonly 
+ used to refer to both SSL and TLS protocols. TLS versions are now widely used in modern secure communications.
+ 
+ how to generate SSL certificate using java?
+Use the keytool utility provided by the Java Development Kit (JDK) to create a key pair and a self-signed certificate. 
+keytool -genkeypair -alias myalias -keyalg RSA -keysize 2048 -validity 365 -keystore keystore.jks
+
+ Optional: Importing the Certificate into a Trust Store
+If you want clients (like a web browser or another Java application) to trust your self-signed certificate, you can import it into their trust store. 
+keytool -import -alias myalias -file mycertificate.cer -keystore truststore.jks
+ 
+ what is micro meter in spring boot?
+ Micrometer collects various metrics from your Spring Boot application, 
+ such as JVM memory usage, CPU usage, thread pool activity, garbage collection, 
+ HTTP request timings, database connection pool stats, etc.
+ Integration with Monitoring Systems:
+ Micrometer acts as a bridge between Spring Boot and various monitoring systems. 
+ Once Micrometer collects the metrics, it can push them to external monitoring systems like Prometheus, Datadog, or Graphite.
+ Automatic Metrics for Spring Components:
+ Spring Boot automatically configures Micrometer to collect metrics from common 
+ components like Spring MVC controllers, Spring Data repositories, and WebClient.
+ Actuator Integration:
+ Micrometer integrates with Spring Boot's Actuator, which provides endpoints to expose the collected metrics.
+ 
+ Micrometer supports a wide range of monitoring systems, including:
+ 	Prometheus
+	Datadog
+	Graphite
+	InfluxDB
+
+What is a cyclic dependency in Spring, and how do you prevent it?
+
+Resolving Circular Dependencies in Spring Boot Applications
+1.Refactoring
+
+2.Lazy Initialization
+@Service
+public class ProductService {
+  private CustomerService customerService;
+
+  public ProductService(CustomerService customerService) {
+    this.customerService = customerService;
+  }
+}
+
+@Service
+public class CustomerService {
+  private ProductService productService;
+
+  public CustomerService(ProductService productService) {
+    this.productService = productService;
+  }
+} 
+
+Refactoring to Resolve Circular Dependencies
+
+public interface ServiceInterface {}
+
+@Service
+public class ProductService implements ServiceInterface {
+  private ServiceInterface serviceUser;
+
+  public ProductService(ServiceInterface serviceUser) {
+    this.serviceUser = serviceUser;
+  }
+}
+
+@Service
+public class CustomerService implements ServiceInterface {
+  private ServiceInterface serviceUser;
+
+  public CustomerService(ServiceInterface serviceUser) {
+    this.serviceUser = serviceUser;
+  }
+} 
+
+@Service
+public class UserService {
+  @Lazy
+  @Autowired
+  private NotificationService notificationService;
+
+  public void performUserNotification() {
+    notificationService.notifyUser();
+  }
+}
+
+
+How do you make your application fault-tolerant and resilient?
+Fault tolerance means given a microservice application how much tolerant it is or what is the 
+impact when there is a fault, will the whole application goes down or part of 
+functionality goes down or there are some arrangements to handle failures.
+Tolerance the system has for a fault — Fault Tolerance
+Resilience means how many faults the system can tolerate.
+
+Design Patterns to achieve Resiliency
+Circuit Breaker Pattern:
+we can first detect where the problem is and then stop calling that component for some 
+amount of time. Basically, we have to deactivate that component which gives a problem for some time.
+This pattern is called Circuit Breaker pattern as we are breaking the call to the service which 
+gives a problem for a certain amount of time and then again resuming.
+
+Timeout Design Pattern
+Retry Design Pattern
+
+How to secure REST APIs?
+
+1. Authentication:
+
+    Basic Authentication: username/password
+    Token-Based Authentication:
+    	 OAuth 2.0:
+     	JWT (JSON Web Tokens)
+    API Keys
+2. Authorization:    
+     
+  Role-Based Access Control (RBAC):
+  Attribute-Based Access Control (ABAC):
+  Scopes and Permissions:
+3. Encryption:  
+  HTTPS/TLS
+   Ensure all data transmitted between the client and server is encrypted using HTTPS
+4. Input Validation:   
+
+5. Rate Limiting:
+  Throttle Requests:
+  Implement rate limiting to prevent abuse and protect against denial-of-service (DoS) attacks.
+Set limits on the number of requests a client can make within a specified time frame.
+
+6. Logging and Monitoring:
+
+7.  Security Headers:
+  CORS (Cross-Origin Resource Sharing):
+   Configure CORS policies to control which domains can access your API.
+   Content Security Policy (CSP)
+   
+8. API Gateway:
+ Centralized Security:
+  Use an API gateway to manage authentication, rate limiting, logging, and other security policies in a centralized manner.
+ Access Control:
+  Implement additional security features such as IP whitelisting and blacklisting.
+
+9. Patch Management:
+   Regular Updates:
+    Keep libraries, frameworks, and dependencies up to date with the latest security patches to mitigate vulnerabilities.
+10. Secure Development Practices:
+Code Reviews:
+	Regularly review code for security issues and vulnerabilities.
+Penetration Testing:
+	Perform security testing to identify and address potential vulnerabilities.    
+
+
+What is your experience with Rest API
+
+1.Stateless
+2. Client -server architecture
+3. Unitform interface: like HTTP methods get, post, 
+4. Resource Representation: like xml, json
+
+
+Best Practices in REST API Design:
+Use Nouns in URL
+Use HTTP Status codes Approriately
+Use Versioning
+pageinatin and filter
+Security
+Caching Response
+
+
+Best Practices to Improve Spring Boot Pefromance
+
+1 .Uses Caching
+2. use Asyncronizing
+3. Use prooper Monitiory Tools
+4. Implmenet Circuit Breakers
+5. Minmize Data Base Queris
+6. Opimize Server Resources
+7. use HTTP Caching: from external services
+
+1. Upgrade Dependencies:Regularly update Spring Boot dependencies to the latest stable versions. 
+2. Java Version:Use the latest stable version of Java to take advantage of performance improvements and new features
+3. Spring Boot Actuator
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

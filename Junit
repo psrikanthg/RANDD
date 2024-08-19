@@ -1,0 +1,62 @@
+what is difference between Junit 4.x and junit 5.x?
+
+1. Architecture
+JUnit 4.x:
+       Monolithic: JUnit 4 is a single, monolithic framework where everything is contained within one library.
+JUnit 5.x:
+       Modular: JUnit 5 is composed of three main sub-projects:
+		JUnit Platform: Foundation for launching testing frameworks on the JVM. It also defines the TestEngine API for developing testing frameworks that run on the platform.
+		JUnit Jupiter: Provides the new programming model and extension model for writing tests and extensions in JUnit 5.
+		JUnit Vintage: Provides a TestEngine for running JUnit 3 and JUnit 4-based tests on the JUnit 5 platform.
+2. Annotations
+JUnit 4.x:
+	@Before, @After: Used for setup and teardown methods.
+	@BeforeClass, @AfterClass: Used for setup and teardown at the class level.
+	@Ignore: Used to ignore a test.
+JUnit 5.x:
+	BeforeEach, @AfterEach: Replaces @Before and @After.
+	@BeforeAll, @AfterAll: Replaces @BeforeClass and @AfterClass. Methods annotated with @BeforeAll and @AfterAll must be static if they are in a non-test instance method in JUnit 5.
+	@Disabled: Replaces @Ignore to disable tests.
+New Annotations:
+	@Tag: Replaces @Category from JUnit 4 and is used for filtering tests.
+	@DisplayName: Provides a custom display name for test classes and test methods.
+	@Nested: Allows you to create nested test classes for a more hierarchical test structure.
+	@TestFactory: Allows you to dynamically generate test cases.
+3. Assertions
+JUnit 4.x:
+		Assertions are primarily static methods in the org.junit.Assert class.
+JUnit 5.x:
+		Assertions are provided by the org.junit.jupiter.api.Assertions class, offering more flexibility and additional features like grouped assertions with assertAll, assertTimeout, and more.
+Dynamic Tests: JUnit 5 introduces dynamic tests, allowing tests to be generated at runtime using @TestFactory.
+4. Assumptions
+	JUnit 4.x:
+		Assumptions are static methods in the org.junit.Assume class, used to skip tests based on certain conditions.
+	JUnit 5.x:
+		Assumptions are now in the org.junit.jupiter.api.Assumptions class with similar functionality but integrated into the Jupiter API.
+5. Extension Model
+JUnit 4.x:
+	The extension model in JUnit 4 is based on Rules (@Rule and @ClassRule) and Runners (@RunWith).
+JUnit 5.x:
+	JUnit 5 replaces Rules and Runners with a more powerful and flexible Extension model. You can implement custom extensions by implementing interfaces like BeforeEachCallback, AfterEachCallback, BeforeAllCallback, AfterAllCallback, etc.
+6. Parameter Injection
+JUnit 4.x:
+	Limited support for parameterized tests using the @RunWith(Parameterized.class) runner.
+JUnit 5.x:
+	JUnit 5 provides more advanced and flexible parameterized testing support with the @ParameterizedTest annotation and various parameter sources (@ValueSource, @EnumSource, @MethodSource, etc.).
+7. IDE and Tooling Support
+JUnit 4.x:
+	Widely supported across IDEs, CI/CD pipelines, and build tools.
+JUnit 5.x:
+	Modern IDEs, build tools, and CI/CD pipelines fully support JUnit 5. However, JUnit 5’s modular nature means that it may require additional setup (like including the appropriate modules) depending on your use case.
+8. Backward Compatibility
+JUnit 4.x:
+	No backward compatibility concerns as it was the dominant version for a long time.
+JUnit 5.x:
+	JUnit 5 introduces the JUnit Vintage engine to allow running JUnit 3 and JUnit 4 tests alongside JUnit 5 tests, offering a migration path for existing tests.
+9. Test Execution
+JUnit 4.x:
+	Tests are discovered and executed by the JUnit 4 test runner.
+JUnit 5.x:
+	Tests are discovered and executed by the JUnit Platform, which supports multiple testing frameworks (JUnit, TestNG, etc.).
+10. Miscellaneous
+JUnit 5.x offers other enhancements like better support for lambda expressions, improved test reporting, and more expressive APIs.

@@ -1,0 +1,141 @@
+what are sdlc life cycles?
+1. Waterfall:A linear and sequential approach where each phase must be completed before 
+moving on to the next. The phases typically include requirements gathering, design, implementation, 
+testing, deployment, and maintenance.
+2. Agile
+An iterative and incremental approach that focuses on flexibility, customer collaboration, and 
+responding to change. Development is carried out in small, manageable chunks called "sprints."
+3. Scrum
+A subset of Agile, Scrum is focused on delivering work in fixed-length iterations called "sprints,
+" usually lasting 2-4 weeks. It emphasizes roles (e.g., Scrum Master, Product Owner) and ceremonies (e.g., daily stand-ups, sprint reviews).
+4. Kanban
+5. DevOps
+A practice that combines software development (Dev) and IT operations (Ops), 
+emphasizing collaboration, automation, continuous integration, and continuous delivery (CI/CD).
+6. Spiral
+7. DevOps
+A practice that combines software development (Dev) and IT operations (Ops), emphasizing collaboration, 
+automation, continuous integration, and continuous delivery (CI/CD).
+8. V-Model (Verification and Validation)
+
+how to do you translate high level design when you get requirement
+HLD shows the overall architecture and functionality of the system without going into implementation details. T
+, HLD is the outcome of an initial phase of the design process where architects, 
+system designers, or project managers discuss the structure and components of a system at a high level
+
+1. Understand the Requirements
+  Gather Information: Review the requirements document thoroughly.
+  Clarify Ambiguities: Discuss with stakeholders to clarify any unclear aspects.
+  Identify Key Objectives: Determine the main goals and constraints.
+  
+2. Define the System Architecture
+  High-Level Overview: Create a high-level diagram showing major components and their interactions.
+ Modules and Subsystems: Break down the system into modules or subsystems.
+ Interfaces: Define the interfaces between different modules and external systems.
+ 
+3. Detail Component Design
+
+Component Specifications: For each module, specify functionality, inputs, outputs, and dependencies.
+Data Flow: Create data flow diagrams to show how data moves through the system.
+
+Control Flow: Develop control flow diagrams if applicable.
+
+4.Select Technologies and Tools
+
+Technology Stack: Choose appropriate technologies, frameworks, and tools.
+Justification: Provide reasoning for the selected technologies based on requirements.
+
+5. Develop Detailed Diagrams
+ Class Diagrams: If using object-oriented design, create class diagrams to define the structure.
+ER Diagrams: For databases, create entity-relationship diagrams.
+Sequence Diagrams: Show interactions between components over time.
+
+6.  Define Non-Functional Requirements
+	Performance: Specify performance requirements like response time and throughput.
+	Scalability: Define how the system will scale with increased load.
+	Security: Address security requirements and measures.
+	Reliability: Define uptime and fault tolerance requirements.
+7.  Create Prototypes or Mockups
+ UI/UX: Develop prototypes or mockups for the user interface.
+Validation: Use these prototypes to validate design decisions with stakeholders.
+
+8.  Review and Refine
+Peer Review: Have the design reviewed by peers or other teams.
+Iterate: Refine the design based on feedback.
+ 
+9. Document the Design
+ HLD Document: Compile all diagrams, descriptions, and decisions into a comprehensive HLD document.
+ Version Control: Use version control to manage changes to the design document.
+10.Plan for Implementation
+ Roadmap: Develop a roadmap for implementation, including timelines and milestones.
+Task Breakdown: Break down the high-level tasks into smaller, actionable items for development. 
+
+
+What Is Low-Level Design?
+low-level design (LLD) fleshes out the implementation details of every 
+component specified in an HLD, such as class diagrams, algorithms, database schemas, and error-handling mechanisms.
+It is created by the developer manager and designers
+It involves the actual logic of all the system components
+It includes a step-by-step plan for the system’s implementation
+
+https://www.baeldung.com/cs/hld-lld
+
+what is jenkins?
+Jenkins is an open-source automation server that helps automate the building, 
+testing, and deployment of applications. It is highly customizable and can be used to 
+implement complex CI/CD pipelines.
+
+ Key Activities in Jenkins:
+  1. Continuous Integration (CI):
+      Integration with Version Control Systems: Jenkins integrates with version control systems 
+                           like Git, SVN,BitBucket and Mercurial to monitor repositories for changes.
+    Automated Builds:   Jenkins can automatically build the application whenever there is a change 
+    in the source code repository (e.g., Git). This ensures that the code is always in a deployable state.
+    Triggering Jobs:    Jobs can be triggered by events such as code commits, pull requests, or on a scheduled basis (cron jobs).
+ 2. Continuous Testing:
+      Automated Testing: Jenkins can run automated tests as part of the build process. 
+                         It can execute unit tests, integration tests, and UI tests using testing frameworks 
+                         like JUnit, TestNG, Selenium, and others.   
+      Test Reporting: Jenkins provides detailed reports on test results, including failed tests and code coverage. This helps in identifying issues early in the development process.
+ 3. Continuous Delivery (CD):   
+     Deployment Pipelines: Jenkins can be used to automate (or manual) the deployment of applications to 
+     various environments (e.g., development, staging, production). This can be done through custom scripts or by using plugins for deployment tools.
+ 4. Plugins and Integration: that integrate with various tools and services like Docker, Kubernetes, AWS, Azure, and more.
+ 5. Monitoring and Notifications:
+ 
+ what is Docker?
+ Docker is a platform that enables developers and DevOps teams to build, share,
+  and run applications in containers. Containers package the application code along 
+  with its dependencies, 
+  
+  Key Activities in Docker:
+   
+  1. Containerization:
+      Creating Docker Images: Docker allows you to create images that contain your 
+      application and its dependencies. These images are defined using a Dockerfile, 
+      which specifies the base image, application code, dependencies, and any commands 
+      needed to set up the environment.
+  
+  2. Dockerfile:
+      Writing Dockerfiles: A Dockerfile is used to define the steps to build a Docker image. 
+      It includes instructions for setting up the environment, copying application files, 
+      installing dependencies, and configuring the container.
+  
+  3. Container Orchestration:
+      Docker Compose: For multi-container applications, Docker Compose allows you to define and 
+         run multiple containers using a single YAML file (docker-compose.yml). 
+        This file specifies the services, networks, and volumes required by the application.
+     Kubernetes Integration: Docker integrates with Kubernetes, a container orchestration platform, 
+     to manage the deployment, scaling, and management of containerized applications.  
+  4. Continuous Integration/Continuous Deployment (CI/CD):
+      Building Docker Images in CI Pipelines: Docker images can be built as part of the CI process in Jenkins
+  5. Deployment:
+  6. Versioning and Rollbacks:
+     Image Tagging: Docker images are versioned and tagged, making it easy to roll back to a previous version if a deployment fails.
+      Immutable Infrastructure: Docker promotes the idea of immutable infrastructure, where once a container is deployed, it is not modified but rather replaced with a new version. 
+   
+  
+  
+  
+  
+  

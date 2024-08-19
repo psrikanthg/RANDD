@@ -1,0 +1,269 @@
+   
+    function duplicate(arr){
+        return arr.concat(arr);
+    }
+    
+    duplicate([1,2, 3,4, 5,6]);
+    
+    console.log(mul(3)(5)(6));
+    
+    
+    function mul(x){
+        return function(y){
+            return function(z){
+                 return x*y*z;
+           };
+        };
+    }
+    
+    var y=1;
+    if(function f() {}){
+        y+= typeof f;
+    }
+    console.log(y)
+    
+    let str1 = "Hello";  
+  
+let str2 = "World";  
+   
+let str = `${str1} ${str2}`;  
+console.log(str);  
+
+
+ function *Numbers() {
+    let num = 0;
+    while(true) {
+        yield num++;
+    }
+}
+  
+var gen = Numbers();
+ gen.next();
+ gen.next();
+  console.log(gen.next().value);
+  
+// Loop to print the first
+// 5 Generated numbers
+for (var i = 0; i < 5; i++) {
+ 
+    // Generate the next number
+    console.log(gen.next().value);
+ 
+    // New Line
+    console.log("<br>");
+}
+
+const obj1 = { property1: 'Marry'};  
+        const obj2 = Object.seal(obj1);  
+       // prevents other code from deleting properties of an object.  
+        obj2.property1 = 'carry';  
+        console.log(obj2.property1);  
+        
+        
+        const objec1= {
+            property1:29
+        };
+        
+        Object.seal(objec1);
+        objec1.property1 =45;
+        console.log(objec1.property1);
+        delete objec1.property1;
+        console.log(objec1.property1);
+        
+      
+"use strict";  
+x=10;  
+console.log(x);  
+
+function getData(x, y, callback){  
+console.log(" The multiplication of the numbers " + x + " and " + y + " is: " + (x*y) + "<br><br>" );  
+callback();  
+}  
+function showData(){  
+console.log((' This is the showData() method execute after the completion of getData() method.');  
+}  
+getData(20, 30, showData);  
+
+console.log(a); // undefined
+//console.log(b); // causes ReferenceError: aLet is not defined
+var a = 1;
+let b = 2;
+
+
+const str = "big black bug bit a big black dog on his big black nose";
+const findDuplicateWords = str => {
+   const strArr = str.split(" ");
+   const res = [];
+   for(let i = 0; i < strArr.length; i++){
+      if(strArr.indexOf(strArr[i]) !== strArr.lastIndexOf(strArr[i])){
+         if(!res.includes(strArr[i])){
+            res.push(strArr[i]);
+         };
+      };
+   };
+   return res.join(" ");
+};
+console.log(findDuplicateWords(str));
+try catch
+
+
+try{
+  throw new Error("THis is throw Error")
+} catch (error){
+    console.log("caught Error"+error.message);
+}
+finally{
+    console.log("Finally block always executes")
+}
+
+
+const animal ={
+    first:'The',
+    last: 'Lion'
+};
+
+console.log(typeof(animal)); //object
+
+const propertyNames = Object.keys(animal);
+console.log(propertyNames);
+const propertyValues =Object.values(animal);
+console.log(propertyValues);
+const entries = Object.entries(animal);
+console.log(entries);
+
+var object = {"0":5,"1":7,"2":4,"3":6,"4":7,"5":8,"6":12,"7":11,"8":2}  
+var covert  = Object.keys(object).map(function(key)  
+ {  
+  return [Number(key), object[key]];  
+});  
+console.log(covert);
+        
+var arr = new Array(10. 20, 30, 40, 50, 60);
+console.log("Array Length: "+arr.length)
+  arr.length =10;
+console.log("After Setting Array Length: "+arr)
+
+alert ("Hello");  
+
+var a=10, b=20, c=30, sum, mul, sub;
+sum =  eval("a+b+c");
+mul = eval("a*b*c");
+sub =eval("a-b-c");
+console.log("sum: "+sum);
+console.log("mul: "+mul);
+console.log("sub: "+sub);
+
+var res;
+function fun(a,b){
+    return a*b;
+}
+
+eval("res=fun(10,20)");
+console.log(res);
+
+var x=0;
+var str = "if(x==0){'sunday'} else 'MONDAY'";
+console.log("Eval output: "+eval(str));
+
+ //convert string to JavaScriptObject
+ var str ='({"fname":"Harry", "lname":"RickName"})'
+ var obj = eval(str);
+ console.log(obj.fname+" "+obj.lname);
+ 
+ console.log(typeof(NaN)) //prints Number
+ console.log(typeof(Infinity)) //Number
+ console.log(typeof(typeof 1)) //prints string
+ console.log(typeof String(12)) //String
+ 
+ 
+ console.log(typeof Null) //undefined
+ console.log(typeof undefined) //undefined
+ console.log(typeof a)//undefined
+ console.log(typeof null) //object
+ 
+ console.log(typeof function(){}) //function
+ console.log(typeof class hell{}) //function
+ 
+ console.log(b); //Cannot access 'b' before initialization
+ let b =10;
+ 
+ var a;  
+  
+a = setInterval(fun, 3000);  
+  
+function fun() {  
+console.log("calling mutiple times")
+}
+
+// Create a Map
+const fruits = new Map();
+
+// Set Map Values
+fruits.set("apples", 500);
+fruits.set("bananas", 300);
+fruits.set("oranges", 200);
+console.log(fruits)
+
+   //define a date object variable that will take the current system date  
+       todaydate = new Date();  
+  
+      //find the year of the current date  
+       var oneJan =  new Date(todaydate.getFullYear(), 0, 1);   
+    
+       // calculating number of days in given year before a given date   
+       var numberOfDays =  Math.floor((todaydate - oneJan) / (24 * 60 * 60 * 1000));   
+    
+       // adding 1 since to current date and returns value starting from 0   
+       var result = Math.ceil(( todaydate.getDay() + 1 + numberOfDays) / 7);     
+      console.log("weeks of the year"+result)
+      
+      var todayDate = new Date();
+      console.log("Today Date: "+todayDate);
+      console.log(" Year is: "+todayDate.getFullYear());
+      console.log(" Day is: "+todayDate.getDate());
+      console.log("Month is: "+todayDate.getTime());
+      
+      
+      var d1 = "June 19, 2020";  
+        var m1 = Date.parse(d1);  
+        console.log(m1)
+        
+        var d1 = "June 39, 2020"; //an invalid date  
+        var m1 = Date.parse(d1);  
+        console.log(m1)
+        
+        function example(){
+            $var12 =300;
+            console.log($var12);
+        }
+        //example();//
+        console.log($var12)//throws run time error if we not called example method. $var12 is not defined
+        
+        //sleep example in java script
+        function sleep(milliseconds){
+            return new Promise(resolve => setTimeout(resolve, milliseconds));
+        }
+
+      async function fun(){
+          console.log("hello World!");
+      }
+      
+      
+      const  myProm = new Promise(resolve =>{
+          setTimeout(() =>{
+              resolve('dog');
+          }, 100);
+      })
+      
+      myProm.then(result =>{
+          console.log("Result: "+result);
+      })
+      
+      const myObj = new Observable(observer =>{
+          setTimeout(() =>{
+              observer.next('dog');
+          }, 100);
+      })
+      myObj.subscribe(result =>{
+          console.log('observable : ', result);
+      });

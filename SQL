@@ -1,0 +1,259 @@
+Create Statement:
+CREATE TABLE table_name (  
+    column1 datatype,  
+    column2 datatype,  
+    column3 datatype,  
+   ....  
+); 
+
+Example:
+CREATE TABLE Employee(  
+    EmpId int,  
+    LastName varchar(255),  
+    FirstName varchar(255),  
+    Address varchar(255),  
+    City varchar(255)   
+);
+
+
+Insert Statement:
+INSERT INTO table_name (column1, column2, column3, ...)
+VALUES (value1, value2, value3, ...);
+
+Example:
+NSERT INTO employees (employee_id, first_name, last_name, hire_date, salary)
+VALUES (101, 'John', 'Doe', '2023-07-15', 60000);
+
+The UPDATE Statement
+UPDATE table_name
+SET column1 = value1, column2 = value2, ...
+WHERE condition;
+
+Example:
+UPDATE employees
+SET salary = 65000
+WHERE employee_id = 101;
+
+The DELETE Statement
+
+DELETE FROM table_name
+WHERE condition;
+
+DELETE FROM employees
+WHERE employee_id = 104;
+
+
+SQL ALTER TABLE Statement
+The ALTER TABLE statement is used to add, delete, or modify columns in an existing table.
+
+ALTER TABLE table_name
+ADD column_name datatype;
+
+ALTER TABLE - DROP COLUMN
+ALTER TABLE table_name
+DROP COLUMN column_name;
+
+ALTER TABLE - RENAME COLUMN
+ALTER TABLE table_name
+RENAME COLUMN old_name to new_name;
+
+ALTER TABLE - ALTER/MODIFY DATATYPE
+ALTER TABLE table_name
+ALTER COLUMN column_name datatype;
+
+
+Get number of child count
+
+SELECT PT.ridParentTable , PT.ParentName , PT.Address1 , PT.Address2,
+
+ COUNT(CT.ChildName) Child_Count
+
+FROM ParentTable PT
+
+JOIN ChildTable CT
+
+ON PT.ridParentTable = CT.keyParentTable
+
+GROUP BY
+
+ PT.ridParentTable , PT.ParentName , PT.Address1 , PT.Address2
+ 
+ 
+ Solution to finding the 2nd highest salary in SQL
+
+SELECT MAX(Salary) FROM Employee
+WHERE Salary NOT IN (SELECT MAX(Salary) FROM Employee )
+
+select Max(salary) from employee where salary NOT IN (Select max(salary) from employee)
+
+select MAX(Salary) from Employee
+WHERE Salary <> (select MAX(Salary) from Employee )
+
+
+The answer and explanation to finding the nth highest salary in SQL
+
+
+SELECT * /*This is the outer query part */
+FROM Employee Emp1
+WHERE (N-1) = ( /* Subquery starts here */
+SELECT COUNT(DISTINCT(Emp2.Salary))
+FROM Employee Emp2
+WHERE Emp2.Salary > Emp1.Salary)
+
+SELECT *
+FROM Employee Emp1
+WHERE (1) = (
+SELECT COUNT(DISTINCT(Emp2.Salary))
+FROM Employee Emp2
+WHERE Emp2.Salary > Emp1.Salary)
+
+Find the nth highest salary in SQL without a subquery
+
+SELECT Salary FROM Employee 
+ORDER BY Salary DESC LIMIT n-1,1
+
+how to find nth highest salary in sql
+select salary from employee order by salary limit n-1,1
+
+select salary from employee order by salary desc limit n-1, 1
+
+SELECT max(e1.sal),
+       e1.deptno
+FROM emp e1
+WHERE sal <
+    (SELECT max(sal)
+     FROM emp e2
+     WHERE e2.deptno = e1.deptno)
+     
+GROUP BY e1.deptno
+
+SELECT max(sal)
+
+FROM emp
+
+WHERE sal NOT IN
+
+    (SELECT max(sal)
+
+     FROM emp
+
+     GROUP BY deptno)
+
+GROUP BY deptno;
+
+
+SQL Query to find second highest salary of Employee
+highest salary of Employee
+
+select MAX(Salary) from Employee WHERE Salary NOT IN (select MAX(Salary) from Employ)
+
+select max(salary) from Employee where salary not in (select max(salary) from employee)
+
+select max(salary) from Employee where salary not in(Select max(Salary) from employee0
+
+SQL Query to find Max Salary from each department.
+
+SELECT DeptID, MAX(Salary) FROM Employee  GROUP BY DeptID.
+These questions become more interesting if Interviewer will ask you to print department name instead of department id, in that case, you need to join Employee table with Department using foreign key DeptID, make sure you do LEFT or RIGHT OUTER JOIN to include departments without any employee as well.  Here is the query
+
+SELECT DeptName, MAX(Salary) FROM Employee e RIGHT JOIN Department d ON e.DeptId = d.DeptID GROUP BY DeptName;
+
+Write SQL Query to display the current date
+
+SELECT GetDate(); 
+Write an SQL Query to print the name of the distinct employee whose DOB is between 01/01/1960 to 31/12/1975
+
+SELECT DISTINCT EmpName FROM Employees WHERE DOB  BETWEEN �01/01/1960� AND �31/12/1975�;
+
+
+Write an SQL Query find number of employees according to gender 
+
+SELECT COUNT(*), sex from Employees  WHERE  DOB BETWEEN '01/01/1960' AND '31/12/1975'  GROUP BY sex;
+
+Write an SQL Query to find an employee whose Salary is equal or greater than 10000.
+
+SELECT EmpName FROM  Employees WHERE  Salary>=10000;
+Write an SQL Query to find name of employee whose name Start with 'M'
+
+SELECT * FROM Employees WHERE EmpName like 'M%';
+
+find all Employee records containing the word "Joe", regardless of whether it was stored as JOE, Joe, or joe.
+
+SELECT * from Employees WHERE UPPER(EmpName) like '%JOE%';
+
+Write an SQL Query to find  the year from date.
+
+SELECT YEAR(GETDATE()) as "Year";
+Write SQL Query to find duplicate rows in a database? and then write SQL query to delete them?
+
+SELECT * FROM emp a WHERE rowid = (SELECT MAX(rowid) FROM EMP b WHERE a.empno=b.empno)
+
+DELETE FROM emp a WHERE rowid != (SELECT MAX(rowid) FROM emp b WHERE a.empno=b.empno);
+
+There is a table which contains two column Student and Marks, you need to find all the students, whose marks are greater than average marks i.e. list of above average students.
+SELECT student, marks from table where marks > SELECT AVG(marks) from table)
+
+How do you find all employees which are also manager? 
+
+SELECT e.name, m.name FROM Employee e, Employee m WHERE e.mgr_id = m.emp_id;
+
+select e.name, m.namge from employee e. employee m where e.mgr_id = m.emp_id;
+
+How to select first 5 records from a table?
+
+SELECT * 
+FROM EMP
+WHERE ROWNUM <= 5;
+
+SELECT TOP 5 * FROM EMP;
+
+
+What is the difference between inner and outer join? Explain with example.
+Inner join is the most common type of Join which is used to combine the rows from two 
+tables and create a result set containing only such records that are present in
+ both the tables based on the joining condition 
+If none of the record matches between two tables, then INNER JOIN will return a NULL set
+Outer Join
+
+Outer Join, on the other hand, will return matching rows from both tables 
+as well as any unmatched rows from one or both the tables 
+(based on whether it is single outer or full outer join respectively)
+
+What is the difference between UNION and UNION ALL?
+UNION and UNION ALL both unify for add two structurally similar data sets, but UNION operation 
+returns only the unique records from the resulting data set whereas 
+UNION ALL will return all the rows, even if one or more rows are duplicated to each other.
+
+LEFT JOIN: Return all rows from the left table, and the matched rows from the right table
+
+RIGHT JOIN: Return all rows from the right table, and the matched rows from the left table
+
+FULL JOIN: Return all rows when there is a match in ONE of the tables
+Automatic Locks in DML Operations
+
+A row lock, also called a TX lock, is a lock on a single row of a table. 
+A transaction acquires a row lock for each row modified by one of the following statements: 
+INSERT, UPDATE, DELETE, MERGE, and SELECT ... FOR UPDATE. 
+The row lock exists until the transaction commits or rolls back.
+
+what is difference between function and procedure in SQL?
+
+	Function																Procedure
+A function is used to calculate result using given inputs.		A procedure is used to perform certain task in order.
+A function can be called by a procedure.						A procedure cannot be called by a function.
+DML statements cannot be executed within a function.			DML statements can be executed within a procedure.
+A function can be called within a query.						A procedure cannot be called within a query.
+Whenever a function is called, it is first compiled before      A procedure is compiled once and can be called multiple times without being compiled.
+being called.
+
+	
+A function returns a value and control to calling function      A procedure returns the control but not any value to calling function or code.
+or code.
+
+A function has no support for try-catch							A procedure has support for try-catch blocks.
+
+	
+A select statement can have a function call.                    A select statement can't have a procedure call.
+A function cannot have explicit transaction handling.			A procedure can use explicit transaction handling.
+
+
